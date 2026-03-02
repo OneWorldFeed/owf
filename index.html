@@ -6,16 +6,71 @@
 
   <title>OneWorldFeed</title>
 
-  <!-- Load global styles -->
-  <link rel="stylesheet" href="./styles.css">
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="./app.css">
 </head>
 
 <body>
 
-  <!-- SPA Mount Point -->
-  <main id="main"></main>
+  <!-- GLOBAL APP SHELL -->
+  <div id="owf-app">
 
-  <!-- Application Entry -->
+    <!-- LEFT PANEL (STATIC, EDITORIALLY LOCKED) -->
+    <aside class="owf-left-panel">
+      <div class="left-header">
+        <img src="./assets/logo/owf-logo.png" alt="OWF Logo" class="owf-logo">
+        <h1 class="brand-title">OneWorldFeed</h1>
+      </div>
+
+      <nav class="left-nav">
+        <a href="#/home" class="nav-item">Home</a>
+        <a href="#/profile" class="nav-item">Profile</a>
+        <a href="#/social" class="nav-item">Social</a>
+        <a href="#/music" class="nav-item">Music</a>
+        <a href="#/podcasts" class="nav-item">Podcasts</a>
+        <a href="#/live" class="nav-item">Live</a>
+        <a href="#/discover" class="nav-item">Discover</a>
+        <a href="#/news" class="nav-item">News</a>
+        <a href="#/ai" class="nav-item">AI</a>
+        <a href="#/saved" class="nav-item">Saved</a>
+        <a href="#/dm" class="nav-item">DM</a>
+        <a href="#/badges" class="nav-item">Badges</a>
+        <a href="#/settings" class="nav-item">Settings</a>
+      </nav>
+
+      <div class="left-radio-player">
+        <!-- Radio Player Mount -->
+      </div>
+    </aside>
+
+    <!-- MAIN COLUMN (CENTER FEED) -->
+    <main class="owf-center">
+
+      <!-- GLOBAL HEADER -->
+      <header class="owf-global-header">
+        <div class="post-bar">
+          <input type="text" placeholder="Share something with the world..." class="post-input">
+        </div>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Search OneWorldFeed..." class="search-input">
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT MOUNT (SPA) -->
+      <section id="owf-page"></section>
+
+    </main>
+
+    <!-- RIGHT PANEL (GLOBAL SIGNALS) -->
+    <aside class="owf-right-panel">
+      <div id="right-global"></div>
+    </aside>
+
+  </div>
+
+  <!-- SPA ENTRY -->
   <script type="module" src="./app.js"></script>
+
 </body>
 </html>
