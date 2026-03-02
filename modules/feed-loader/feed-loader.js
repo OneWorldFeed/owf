@@ -3,25 +3,23 @@
    Loads feed.json and renders cards into #feed
    ============================================================ */
 
-import { createFeedCard } from "../../components/feed-card/feed-card.js";
+import { createFeedCard } from "../../components/feed-card/feed-cards.js";
 
 export async function loadInitialFeed() {
   const feedEl = document.querySelector("#feed");
-  if (!feedEl) {
-    console.warn("No #feed element found on this view.");
-    return;
-  }
+  if (!feedEl) return;
 
   try {
-    const res = await fetch("./data/feed.json");
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const res = await fetch("../../data/feed.json");
     const cards = await res.json();
 
     feedEl.innerHTML = "";
+
     cards.forEach(card => {
       const el = createFeedCard(card);
       feedEl.appendChild(el);
     });
+
   } catch (err) {
     console.error("Feed load error:", err);
   }
