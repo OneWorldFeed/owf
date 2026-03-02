@@ -1,6 +1,6 @@
 /* ============================================================
    OWF GLOBAL DESIGN SYSTEM — PHASE 4.4.4 (CINEMATIC MERGE)
-   Tokens • Reset • Typography • Light Mode • Dark Mode • A11y
+   Tokens • Reset • Typography • Utilities • Glow • Cards • Header
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -63,11 +63,7 @@
   --owf-motion-medium: 200ms ease;
   --owf-motion-slow: 320ms ease;
 
-  /* --------------------------------------------------------
-     CINEMATIC ADDITIONS (Mapped into OWF namespace)
-  -------------------------------------------------------- */
-
-  /* Radii */
+  /* Cinematic Radii */
   --owf-radius-sm: 10px;
   --owf-radius-md: 18px;
   --owf-radius-lg: 26px;
@@ -106,14 +102,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Smooth rendering */
 img {
   max-width: 100%;
   display: block;
   border-radius: 8px;
 }
 
-/* Links */
 a {
   color: inherit;
   text-decoration: none;
@@ -136,7 +130,87 @@ a {
 }
 
 /* ------------------------------------------------------------
-   DARK MODE (Preserved)
+   TYPOGRAPHY UTILITIES
+------------------------------------------------------------ */
+.text-xs { font-size: var(--owf-font-size-xs); }
+.text-sm { font-size: var(--owf-font-size-sm); }
+.text-md { font-size: var(--owf-font-size-md); }
+.text-lg { font-size: var(--owf-font-size-lg); }
+.text-xl { font-size: var(--owf-font-size-xl); }
+.text-xxl { font-size: var(--owf-font-size-xxl); }
+
+.weight-regular { font-weight: var(--owf-font-weight-regular); }
+.weight-medium { font-weight: var(--owf-font-weight-medium); }
+.weight-semibold { font-weight: var(--owf-font-weight-semibold); }
+
+/* ------------------------------------------------------------
+   SPACING UTILITIES
+------------------------------------------------------------ */
+.pad-sm { padding: var(--owf-space-sm); }
+.pad-md { padding: var(--owf-space-md); }
+.pad-lg { padding: var(--owf-space-lg); }
+
+.gap-sm { gap: var(--owf-space-sm); }
+.gap-md { gap: var(--owf-space-md); }
+.gap-lg { gap: var(--owf-space-lg); }
+
+/* ------------------------------------------------------------
+   GLOW UTILITIES
+------------------------------------------------------------ */
+.glow-warm {
+  box-shadow: 0 0 24px var(--owf-glow-warm);
+}
+
+.glow-neutral {
+  box-shadow: 0 0 24px var(--owf-glow-neutral);
+}
+
+.glow-cool {
+  box-shadow: 0 0 24px var(--owf-glow-cool);
+}
+
+/* ------------------------------------------------------------
+   BASE FEED CARD STYLE
+------------------------------------------------------------ */
+.feed-card {
+  background: var(--owf-surface);
+  border-radius: var(--owf-radius-lg);
+  box-shadow: var(--owf-shadow-card);
+  padding: var(--owf-space-lg);
+  margin-bottom: var(--owf-space-xl);
+  transition: transform var(--owf-motion-medium), box-shadow var(--owf-motion-medium);
+}
+
+.feed-card:hover {
+  transform: var(--owf-hover-lift);
+  box-shadow: var(--owf-shadow-lg);
+}
+
+/* ------------------------------------------------------------
+   GLOBAL HEADER BASE
+------------------------------------------------------------ */
+.owf-global-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--owf-space-md) var(--owf-space-lg);
+  background: var(--owf-surface);
+  border-bottom: 1px solid var(--owf-border-soft);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.owf-global-header input {
+  background: var(--owf-surface-alt);
+  border: 1px solid var(--owf-border-soft);
+  padding: var(--owf-space-sm) var(--owf-space-md);
+  border-radius: var(--owf-radius-md);
+  width: 100%;
+}
+
+/* ------------------------------------------------------------
+   DARK MODE
 ------------------------------------------------------------ */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -149,7 +223,7 @@ a {
 }
 
 /* ------------------------------------------------------------
-   ACCESSIBILITY (Preserved)
+   HIGH CONTRAST MODE
 ------------------------------------------------------------ */
 :root.high-contrast {
   --owf-border-soft: #000;
