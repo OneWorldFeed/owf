@@ -20,10 +20,7 @@ const routes = {
 
 async function loadView(route) {
   const mount = document.querySelector("#owf-page");
-  if (!mount) {
-    console.error("❌ #owf-page not found — cannot mount view.");
-    return;
-  }
+  if (!mount) return;
 
   const file = routes[route] || routes.home;
 
@@ -32,9 +29,7 @@ async function loadView(route) {
     const html = await response.text();
     mount.innerHTML = html;
 
-    // CRITICAL: triggers app.js hydration
     window.dispatchEvent(new CustomEvent("owf:view-loaded"));
-
   } catch (err) {
     console.error("Router error:", err);
     mount.innerHTML = `<p style="padding:20px;">Error loading view.</p>`;
