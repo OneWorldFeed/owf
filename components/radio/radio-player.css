@@ -1,0 +1,37 @@
+.radio-ui {
+  background: var(--owf-surface);
+  border: 1px solid var(--owf-border-soft);
+  border-radius: var(--owf-radius-lg);
+  padding: var(--owf-space-md);
+  margin-top: var(--owf-space-xl);
+  box-shadow: var(--owf-shadow-soft);
+}
+
+.radio-header {
+  font-weight: var(--owf-font-weight-semibold);
+  margin-bottom: var(--owf-space-sm);
+}
+
+.radio-select {
+  width: 100%;
+  padding: var(--owf-space-sm);
+  border-radius: var(--owf-radius-md);
+  border: 1px solid var(--owf-border-soft);
+  margin-bottom: var(--owf-space-sm);
+}
+
+.radio-play {
+  width: 100%;
+  padding: var(--owf-space-sm);
+  border-radius: var(--owf-radius-md);
+  background: var(--owf-text-primary);
+  color: var(--owf-surface);
+  border: none;
+  cursor: pointer;
+  margin-bottom: var(--owf-space-sm);
+}
+
+.radio-status {
+  font-size: var(--owf-font-size-sm);
+  color: var(--owf-text-secondary);
+}
