@@ -1,40 +1,44 @@
 /* ============================================================
-   OWF ROUTER — PHASE 4.4.4
-   Simple hash‑based SPA router for OWF
-   Loads views into <main id="main">
+   OWF ROUTER — PHASE 4.4.4 (FINAL)
+   Loads views into <section id="owf-page">
+   Triggers hydration for feed + right panel
    ============================================================ */
 
-import { loadHomeFeed } from "../home/home.js";
 const routes = {
-  "home": "../../views/home.html",
-  "discover": "../../views/discover.html",
-  "news": "../../views/news.html",
-  "live": "../../views/live.html",
-  "music": "../../views/music.html",
-  "podcasts": "../../views/podcasts.html",
-  "social": "../../views/social.html",
-  "dm": "../../views/dm.html",
-  "ai": "../../views/ai.html",
-  "profile": "../../views/profile.html",
-  "settings": "../../views/settings.html",
-  "auth": "../../views/auth.html"
+  home: "/views/home.html",
+  discover: "/views/discover.html",
+  news: "/views/news.html",
+  live: "/views/live.html",
+  music: "/views/music.html",
+  podcasts: "/views/podcasts.html",
+  social: "/views/social.html",
+  dm: "/views/dm.html",
+  ai: "/views/ai.html",
+  profile: "/views/profile.html",
+  settings: "/views/settings.html",
+  auth: "/views/auth.html"
 };
 
 /* ---------------------------------------------
-   Load an HTML view into <main id="main">
+   Load an HTML view into #owf-page
 --------------------------------------------- */
-async function loadView(path) {
-  const main = document.querySelector("#main");
-  if (!main) return;
+async function loadView(route) {
+  const mount = document.querySelector("#owf-page");
+  if (!mount) return;
 
-  const file = routes[path] || routes["home"];
+  const file = routes[route] || routes.home;
 
   try {
     const response = await fetch(file);
     const html = await response.text();
-    main.innerHTML = html;
+    mount.innerHTML = html;
+
+    // Hydration event (critical)
+    window.dispatchEvent(new CustomEvent("owf:view-loaded"));
+
   } catch (err) {
-    main.innerHTML = `<p style="padding:20px;">Error loading view.</p>`;
+    mount.innerHTML = `<p style="padding:20px;">Error loading view.</p>`;
+    console.error("Router error:", err);
   }
 }
 
@@ -42,7 +46,7 @@ async function loadView(path) {
    Determine current route
 --------------------------------------------- */
 function getRoute() {
-  const hash = location.hash.replace("#", "").trim();
+  const hash = location.hash.replace("#/", "").trim();
   return hash === "" ? "home" : hash;
 }
 
@@ -52,14 +56,6 @@ function getRoute() {
 async function handleRoute() {
   const route = getRoute();
   await loadView(route);
-
-  // Layout injection (left-nav, feed, right-panel)
-  window.dispatchEvent(new Event("owf:view-loaded"));
-
-  // Hydrate Home feed AFTER layout is injected
-  if (route === "home") {
-    loadHomeFeed();
-  }
 }
 
 /* ---------------------------------------------
@@ -67,4 +63,3 @@ async function handleRoute() {
 --------------------------------------------- */
 document.addEventListener("DOMContentLoaded", handleRoute);
 window.addEventListener("hashchange", handleRoute);
-
