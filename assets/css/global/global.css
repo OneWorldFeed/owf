@@ -1,11 +1,11 @@
 /* ============================================================
-   OWF GLOBAL DESIGN SYSTEM — PHASE 4.4.4
-   Design Tokens, Base Resets, Dark Mode, Accessibility
+   OWF GLOBAL DESIGN SYSTEM — PHASE 4.4.4 (CINEMATIC MERGE)
+   Tokens • Reset • Typography • Light Mode • Dark Mode • A11y
    ============================================================ */
 
-/* ------------------------------
-   Root Tokens
-   ------------------------------ */
+/* ------------------------------------------------------------
+   ROOT TOKENS (Existing + Cinematic Additions)
+------------------------------------------------------------ */
 :root {
   /* Surfaces */
   --owf-surface: #ffffff;
@@ -62,11 +62,35 @@
   --owf-motion-fast: 120ms ease;
   --owf-motion-medium: 200ms ease;
   --owf-motion-slow: 320ms ease;
+
+  /* --------------------------------------------------------
+     CINEMATIC ADDITIONS (Mapped into OWF namespace)
+  -------------------------------------------------------- */
+
+  /* Radii */
+  --owf-radius-sm: 10px;
+  --owf-radius-md: 18px;
+  --owf-radius-lg: 26px;
+  --owf-radius-xl: 36px;
+
+  /* Glow System */
+  --owf-glow-warm: rgba(255, 200, 150, 0.55);
+  --owf-glow-neutral: rgba(200, 200, 255, 0.45);
+  --owf-glow-cool: rgba(150, 200, 255, 0.45);
+
+  /* Cinematic Shadows */
+  --owf-shadow-soft: 0 4px 18px rgba(0,0,0,0.08);
+  --owf-shadow-card: 0 6px 24px rgba(0,0,0,0.10);
+
+  /* Cinematic Motion */
+  --owf-fade: 0.35s ease;
+  --owf-fade-slow: 0.6s ease;
+  --owf-hover-lift: translateY(-2px);
 }
 
-/* ------------------------------
-   Base Reset
-   ------------------------------ */
+/* ------------------------------------------------------------
+   BASE RESET
+------------------------------------------------------------ */
 * {
   margin: 0;
   padding: 0;
@@ -79,6 +103,7 @@ html, body {
   color: var(--owf-text-primary);
   height: 100%;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Smooth rendering */
@@ -94,9 +119,25 @@ a {
   text-decoration: none;
 }
 
-/* ------------------------------
-   Dark Mode
-   ------------------------------ */
+/* ------------------------------------------------------------
+   CINEMATIC SCROLLBAR
+------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* ------------------------------------------------------------
+   DARK MODE (Preserved)
+------------------------------------------------------------ */
 @media (prefers-color-scheme: dark) {
   :root {
     --owf-surface: #111111;
@@ -107,9 +148,9 @@ a {
   }
 }
 
-/* ------------------------------
-   Accessibility
-   ------------------------------ */
+/* ------------------------------------------------------------
+   ACCESSIBILITY (Preserved)
+------------------------------------------------------------ */
 :root.high-contrast {
   --owf-border-soft: #000;
   --owf-text-secondary: #000;
