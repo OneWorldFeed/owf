@@ -1,7 +1,7 @@
 /* ============================================================
    OWF HOME FEED LOADER — PHASE 4.4.4
    Cinematic Hybrid • Static + Dynamic Cards
-   Injects cards into #feed after layout.js builds the grid.
+   Renders into #owf-page (static layout version)
    ============================================================ */
 
 import {
@@ -21,7 +21,7 @@ import {
    Called by router.js when route === "home"
    ------------------------------------------------------------ */
 export function loadHomeFeed() {
-  const feed = document.querySelector("#feed");
+  const feed = document.querySelector("#owf-page");
   if (!feed) return;
 
   feed.innerHTML = ""; // reset feed
@@ -124,7 +124,7 @@ export function loadHomeFeed() {
    ------------------------------------------------------------ */
 async function loadDynamicFeed(feed) {
   try {
-    const res = await fetch("/data/feed.json");
+    const res = await fetch("../data/feed.json");
     if (!res.ok) return;
 
     const items = await res.json();
