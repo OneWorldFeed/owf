@@ -1,19 +1,125 @@
 <!-- ============================================================
-     OWF HOME VIEW — PHASE 4.4.4
-     Loaded into <main id="main"> by router.js
-     Layout.js will inject:
+     OWF HOME VIEW — PHASE 4.4.4 (POPULATED VERSION)
+     Loaded into <section id="owf-page"> by router.js
+     Layout.js injects:
        - #left-nav
-       - #feed
        - #right-panel
    ============================================================ -->
 
-<div class="view-root">
+<div class="home-view view-root">
 
+  <!-- PAGE TITLE (optional, can be hidden by CSS) -->
   <div class="view-header">
     <h1>Home</h1>
   </div>
 
-  <!-- No bottom-nav here.
-       Navigation is globally injected by layout.js -->
+  <!-- GLOBAL HEADER IS ALREADY IN index.html -->
+
+  <!-- ============================
+       COMPOSER
+  ============================= -->
+  <section class="composer">
+    <div class="composer-avatar"></div>
+    <input class="composer-input" type="text" placeholder="Share something with the world..." />
+    <button class="composer-post-btn">Post</button>
+  </section>
+
+  <!-- ============================
+       FEED FILTERS
+  ============================= -->
+  <section class="feed-filters">
+    <button class="filter active">For You</button>
+    <button class="filter">Following</button>
+    <button class="filter">Trending</button>
+    <button class="filter">Local</button>
+    <button class="filter">Global</button>
+  </section>
+
+  <!-- ============================
+       FEED
+  ============================= -->
+  <section id="feed" class="feed">
+
+    <!-- HERO CARD -->
+    <article class="feed-card hero-card glow-warm">
+      <img src="./assets/hero/earthrise.jpg" class="hero-image" alt="Earthrise">
+      <div class="hero-content">
+        <h2>Welcome to OneWorldFeed</h2>
+        <p>A global space for stories, music, news, and human connection.</p>
+      </div>
+    </article>
+
+    <!-- TEXT POST -->
+    <article class="feed-card text-card glow-neutral">
+      <div class="card-header">
+        <div class="avatar"></div>
+        <div class="meta">
+          <h3>Global Voices</h3>
+          <span>2h ago</span>
+        </div>
+      </div>
+      <p class="card-text">
+        “Every sunrise is a reminder that the world is still full of possibility.”
+      </p>
+    </article>
+
+    <!-- IMAGE POST -->
+    <article class="feed-card image-card glow-cool">
+      <div class="card-header">
+        <div class="avatar"></div>
+        <div class="meta">
+          <h3>Travel Journal</h3>
+          <span>5h ago</span>
+        </div>
+      </div>
+      <p class="card-text">Sunset over the Pacific tonight.</p>
+      <img src="./assets/posts/sunset.jpg" class="card-image" alt="Sunset">
+    </article>
+
+    <!-- MIXED POST -->
+    <article class="feed-card mixed-card glow-warm">
+      <div class="card-header">
+        <div class="avatar"></div>
+        <div class="meta">
+          <h3>Culture Stream</h3>
+          <span>1d ago</span>
+        </div>
+      </div>
+      <p class="card-text">Street art from downtown LA this morning.</p>
+      <img src="./assets/posts/streetart.jpg" class="card-image" alt="Street Art">
+    </article>
+
+    <!-- NEWS CARD -->
+    <article class="feed-card news-card glow-neutral">
+      <div class="card-header">
+        <div class="avatar"></div>
+        <div class="meta">
+          <h3>World News</h3>
+          <span>3h ago</span>
+        </div>
+      </div>
+      <h2 class="news-title">Global Climate Summit Opens Today</h2>
+      <p class="news-summary">
+        Leaders from 80+ nations gather to discuss climate resilience and global cooperation.
+      </p>
+    </article>
+
+    <!-- MUSIC CARD -->
+    <article class="feed-card music-card glow-cool">
+      <div class="card-header">
+        <div class="avatar"></div>
+        <div class="meta">
+          <h3>Now Playing</h3>
+          <span>Live</span>
+        </div>
+      </div>
+      <p class="card-text">“Ocean Breathes Salty” — Modest Mouse</p>
+      <div class="music-player">
+        <button class="play-btn">▶</button>
+        <div class="progress-bar"></div>
+      </div>
+    </article>
+
+  </section>
 
 </div>
