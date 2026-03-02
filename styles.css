@@ -1,27 +1,40 @@
 /* ============================================================
-   OWF GLOBAL STYLE IMPORT HUB — PHASE 4.4.4
+   OWF GLOBAL STYLE IMPORT HUB — PHASE 4.4.4 (CINEMATIC)
+   Imports all global tokens, layout, components, themes, motion
    ============================================================ */
 
-/* Core Tokens */
+/* ------------------------------------------------------------
+   Core Tokens (merged cinematic + existing OWF tokens)
+------------------------------------------------------------ */
 @import "./assets/css/global/global.css";
 
-/* Layout System */
+/* ------------------------------------------------------------
+   Layout System (3-column grid, global header, containers)
+------------------------------------------------------------ */
 @import "./assets/css/global/layout.css";
 
-/* Components */
+/* ------------------------------------------------------------
+   Components (cinematic feed, nav, right panel)
+------------------------------------------------------------ */
 @import "./assets/css/global/feed.css";
 @import "./assets/css/global/right-panel.css";
 @import "./assets/css/global/nav.css";
 
-/* Accessibility */
+/* ------------------------------------------------------------
+   Accessibility (unchanged)
+------------------------------------------------------------ */
 @import "./assets/css/global/high-contrast.css";
 @import "./assets/css/global/reduced-motion.css";
 @import "./assets/css/global/screenreader.css";
 
-/* Themes (optional) */
-@import "./assets/css/themes/dark.css";
+/* ------------------------------------------------------------
+   Themes (light-mode default + dark mode override)
+------------------------------------------------------------ */
 @import "./assets/css/themes/light.css";
+@import "./assets/css/themes/dark.css";
 
-/* Motion (optional) */
+/* ------------------------------------------------------------
+   Motion (cinematic transitions + animations)
+------------------------------------------------------------ */
 @import "./assets/css/motion/transitions.css";
 @import "./assets/css/motion/animations.css";
