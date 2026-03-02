@@ -1,5 +1,5 @@
 /* ============================================================
-   OWF NAVIGATION ENGINE — PHASE 4.4.4 (FINAL)
+   OWF NAVIGATION ENGINE — PHASE 4.4.4 (STATIC LAYOUT)
    Highlights active nav item based on hash route
    ============================================================ */
 
@@ -7,6 +7,7 @@
    Highlight active nav item
 --------------------------------------------- */
 function updateActiveNav() {
+  // Normalize route: "#/home" → "home"
   const route = location.hash.replace("#/", "") || "home";
 
   document.querySelectorAll(".nav-item").forEach(link => {
