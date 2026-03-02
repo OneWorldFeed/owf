@@ -1,104 +1,126 @@
 /* ============================================================
-   OWF 3‑Column Cinematic Grid
-   Left Nav • Center Feed • Right Panel
+   OWF LAYOUT SYSTEM — PHASE 4.4.4 (CINEMATIC GRID)
+   3-column layout • 280px left panel • global header
    ============================================================ */
 
-.owf-grid {
-  display: grid !important;
-  grid-template-columns: 260px 1fr 320px;
-  grid-template-rows: auto;
-  gap: 24px;
-  width: 100% !important;
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 24px;
-  box-sizing: border-box;
+/* ------------------------------------------------------------
+   APP GRID
+------------------------------------------------------------ */
+#owf-app {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--owf-surface-alt);
 }
 
-/* ============================================================
-   Column Assignments
-   ============================================================ */
-
-/* Left nav column */
-#left-nav {
-  grid-column: 1;
-  width: auto !important;
-  max-width: none !important;
+/* ------------------------------------------------------------
+   LEFT PANEL
+------------------------------------------------------------ */
+.owf-left-panel {
+  background: var(--owf-surface);
+  border-right: 1px solid var(--owf-border-soft);
+  padding: var(--owf-space-xl) var(--owf-space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--owf-space-xl);
+  overflow-y: auto;
 }
 
-/* Center feed column */
-#feed {
-  grid-column: 2;
-  width: auto !important;
-  max-width: none !important;
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: var(--owf-space-md);
 }
 
-/* Right panel column */
-#right-panel {
-  grid-column: 3;
-  width: auto !important;
-  max-width: none !important;
-  position: sticky;
-  top: 24px;
+.owf-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--owf-radius-lg);
 }
 
-/* ============================================================
-   View Root Normalization
-   Prevents flexbox or centering from breaking the grid
-   ============================================================ */
-
-.view-root {
-  display: block !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.brand-title {
+  font-size: var(--owf-font-size-xl);
+  font-weight: var(--owf-font-weight-semibold);
 }
 
-/* ============================================================
-   Hardening Against Global Overrides
-   Ensures no theme or global CSS collapses the grid
-   ============================================================ */
-
-#left-nav,
-#feed,
-#right-panel {
-  display: block !important;
+/* ------------------------------------------------------------
+   CENTER COLUMN
+------------------------------------------------------------ */
+.owf-center {
+  padding: var(--owf-space-xl) var(--owf-space-xxl);
+  overflow-y: auto;
+  background: var(--owf-surface-alt);
 }
 
-/* Prevent accidental full-width children */
-#left-nav > *,
-#feed > *,
-#right-panel > * {
-  max-width: 100%;
-  box-sizing: border-box;
+/* ------------------------------------------------------------
+   GLOBAL HEADER
+------------------------------------------------------------ */
+.owf-global-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--owf-surface);
+  padding: var(--owf-space-md) var(--owf-space-lg);
+  border-radius: var(--owf-radius-xl);
+  box-shadow: var(--owf-shadow-soft);
+  margin-bottom: var(--owf-space-xl);
 }
 
-/* ============================================================
-   Responsive Behavior (Phase 4.4.4)
-   ============================================================ */
-
-@media (max-width: 1200px) {
-  .owf-grid {
-    grid-template-columns: 220px 1fr 280px;
-  }
+.post-bar,
+.search-bar {
+  flex: 1;
 }
 
-@media (max-width: 960px) {
-  .owf-grid {
-    grid-template-columns: 1fr;
-  }
+.post-bar {
+  margin-right: var(--owf-space-md);
+}
 
-  #left-nav {
-    display: none;
-  }
+.post-input,
+.search-input {
+  width: 100%;
+  padding: var(--owf-space-sm) var(--owf-space-md);
+  border-radius: var(--owf-radius-lg);
+  border: 1px solid var(--owf-border-soft);
+  background: var(--owf-surface-alt);
+  transition: var(--owf-fade);
+}
 
-  #right-panel {
-    display: none;
-  }
+.post-input:focus,
+.search-input:focus {
+  outline: none;
+  border-color: var(--owf-text-secondary);
+  background: var(--owf-surface);
+}
 
-  #feed {
-    grid-column: 1;
-  }
+/* ------------------------------------------------------------
+   RIGHT PANEL
+------------------------------------------------------------ */
+.owf-right-panel {
+  background: var(--owf-surface);
+  border-left: 1px solid var(--owf-border-soft);
+  padding: var(--owf-space-xl) var(--owf-space-lg);
+  overflow-y: auto;
+}
+
+/* ------------------------------------------------------------
+   SCROLL BEHAVIOR
+------------------------------------------------------------ */
+.owf-left-panel::-webkit-scrollbar,
+.owf-center::-webkit-scrollbar,
+.owf-right-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.owf-left-panel::-webkit-scrollbar-thumb,
+.owf-center::-webkit-scrollbar-thumb,
+.owf-right-panel::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 8px;
+}
+
+.owf-left-panel::-webkit-scrollbar-thumb:hover,
+.owf-center::-webkit-scrollbar-thumb:hover,
+.owf-right-panel::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
 }
