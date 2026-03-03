@@ -1,48 +1,33 @@
 /* ============================================================
-   OWF NAVIGATION ENGINE — PHASE 4.4.4 (STATIC LAYOUT)
-   Highlights active nav item based on hash route
-   Uses data-route instead of href
+   OWF NAVIGATION ENGINE — ORIGINAL VERSION
+   Uses <a href="#/route"> links
    ============================================================ */
 
-/* ---------------------------------------------
-   Highlight active nav item
---------------------------------------------- */
 function updateActiveNav() {
-  const route = location.hash.replace("#", "") || "home";
+  const route = location.hash.replace("#/", "") || "home";
 
-  document.querySelectorAll(".nav-item").forEach(item => {
-    const itemRoute = item.dataset.route;
-    item.classList.toggle("active", itemRoute === route);
+  document.querySelectorAll(".nav-item").forEach(link => {
+    const href = link.getAttribute("href").replace("#/", "");
+    link.classList.toggle("active", href === route);
   });
 }
 
-/* ---------------------------------------------
-   Handle nav clicks (SPA routing)
---------------------------------------------- */
 function handleNavClick(event) {
-  const item = event.target.closest(".nav-item");
-  if (!item) return;
+  const link = event.target.closest(".nav-item");
+  if (!link) return;
 
   event.preventDefault();
 
-  const route = item.dataset.route;
+  const route = link.getAttribute("href");
   location.hash = route;
 }
 
-/* ---------------------------------------------
-   Event Listeners
---------------------------------------------- */
-
-// Highlight when route changes
 window.addEventListener("hashchange", updateActiveNav);
-
-// Highlight after router loads a view
 window.addEventListener("owf:view-loaded", updateActiveNav);
 
-// Bind click handlers after full load (FOUC fix)
-window.addEventListener("load", () => {
-  document.querySelectorAll(".nav-item").forEach(item => {
-    item.addEventListener("click", handleNavClick);
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".nav-item").forEach(link => {
+    link.addEventListener("click", handleNavClick);
   });
 
   updateActiveNav();
