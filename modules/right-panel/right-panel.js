@@ -1,6 +1,6 @@
 /* ============================================================
    OWF RIGHT PANEL MODULE — PHASE 4.4.4 (Static Layout Version)
-   Spotlight • Trending • City Rows • Global Moments
+   Spotlight • Trending • AI • City Rows • Global Moments • Theme
    ============================================================ */
 
 let spotlightData = [];
@@ -27,6 +27,14 @@ async function loadData() {
 --------------------------------------------- */
 function getMountPoint() {
   return document.querySelector("#right-global");
+}
+
+/* ---------------------------------------------
+   Cinematic Card Wrapper
+--------------------------------------------- */
+function wrapCard(el) {
+  el.classList.add("right-card");
+  return el;
 }
 
 /* ---------------------------------------------
@@ -86,6 +94,40 @@ function renderTrending() {
 }
 
 /* ---------------------------------------------
+   AI Mini Assistant
+--------------------------------------------- */
+function renderAICard() {
+  const card = document.createElement("div");
+  card.className = "ai-card";
+
+  card.innerHTML = `
+    <h3 class="ai-title">AI Assistant</h3>
+    <p class="ai-subtitle">Ask anything.</p>
+
+    <div class="ai-input-row">
+      <input type="text" class="ai-input" placeholder="Ask a question..." />
+      <button class="ai-send-btn">Send</button>
+    </div>
+
+    <div class="ai-response"></div>
+  `;
+
+  const input = card.querySelector(".ai-input");
+  const send = card.querySelector(".ai-send-btn");
+  const output = card.querySelector(".ai-response");
+
+  send.addEventListener("click", () => {
+    const text = input.value.trim();
+    if (!text) return;
+
+    output.innerHTML = `<p class="ai-message">You asked: ${text}</p>`;
+    input.value = "";
+  });
+
+  return card;
+}
+
+/* ---------------------------------------------
    City Row
 --------------------------------------------- */
 function renderCityRow(city) {
@@ -127,6 +169,45 @@ function renderMoment(moment) {
 }
 
 /* ---------------------------------------------
+   Theme Selector (Option C)
+--------------------------------------------- */
+function renderThemeSelector() {
+  const card = document.createElement("div");
+  card.className = "theme-card";
+
+  card.innerHTML = `
+    <h3 class="theme-title">Theme</h3>
+
+    <div class="theme-swatches">
+      <div class="theme-swatch" data-theme="dawn"></div>
+      <div class="theme-swatch" data-theme="day"></div>
+      <div class="theme-swatch" data-theme="sunset"></div>
+      <div class="theme-swatch" data-theme="midnight"></div>
+    </div>
+  `;
+
+  const swatches = card.querySelectorAll(".theme-swatch");
+
+  swatches.forEach(swatch => {
+    swatch.addEventListener("click", () => {
+      const theme = swatch.dataset.theme;
+
+      document.body.classList.remove(
+        "theme-dawn",
+        "theme-day",
+        "theme-sunset",
+        "theme-midnight"
+      );
+
+      document.body.classList.add(`theme-${theme}`);
+      document.body.style.transition = "background 0.6s ease, color 0.6s ease";
+    });
+  });
+
+  return card;
+}
+
+/* ---------------------------------------------
    Routes that should show the right panel
 --------------------------------------------- */
 const RIGHT_PANEL_ROUTES = [
@@ -159,29 +240,42 @@ export async function renderRightPanel() {
 
   mount.innerHTML = "";
 
+  /* Spotlight */
   if (spotlightData[0]) {
-    mount.appendChild(renderSpotlight(spotlightData[0]));
+    mount.appendChild(wrapCard(renderSpotlight(spotlightData[0])));
   }
 
-  mount.appendChild(renderTrending());
+  /* Trending */
+  mount.appendChild(wrapCard(renderTrending()));
 
+  /* AI Assistant */
+  mount.appendChild(wrapCard(renderAICard()));
+
+  /* City Rows */
   citiesData.slice(0, 3).forEach(city => {
-    mount.appendChild(renderCityRow(city));
+    mount.appendChild(wrapCard(renderCityRow(city)));
   });
 
+  /* Global Moments Header */
   const header = document.createElement("div");
   header.className = "right-panel-title";
   header.textContent = "Global Moments";
   mount.appendChild(header);
 
+  /* Global Moments */
   feedData.slice(0, 3).forEach(card => {
     mount.appendChild(
-      renderMoment({
-        image: card.image,
-        label: card.city
-      })
+      wrapCard(
+        renderMoment({
+          image: card.image,
+          label: card.city || card.location || "Global Moment"
+        })
+      )
     );
   });
+
+  /* Theme Selector — ALWAYS LAST */
+  mount.appendChild(wrapCard(renderThemeSelector()));
 }
 
 /* ---------------------------------------------
