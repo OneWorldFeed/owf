@@ -65,5 +65,3 @@ async function handleRoute() {
 /* ------------------------------------------------------------
    Boot router
 ------------------------------------------------------------ */
-document.addEventListener("DOMContentLoaded", handleRoute);
-window.addEventListener("hashchange", handleRoute);
