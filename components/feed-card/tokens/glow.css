@@ -1,1 +1,43 @@
-.
+/* -------------------------------------------------------
+   OneWorldFeed — Feed Card Glow Tokens
+   File: components/feed-card/tokens/glow.css
+   ------------------------------------------------------- */
+
+:root {
+  /* Warm Glow */
+  --owf-glow-warm-100: #F4D9C8;
+  --owf-glow-warm-150: #EEC2A8;
+  --owf-glow-warm-200: #E7A98A;
+
+  /* Neutral Glow */
+  --owf-glow-neutral-100: #E8E8E8;
+  --owf-glow-neutral-150: #DCDCDC;
+  --owf-glow-neutral-200: #CFCFCF;
+
+  /* Cool Glow */
+  --owf-glow-cool-100: #C9D8E8;
+  --owf-glow-cool-150: #B4C9DD;
+  --owf-glow-cool-200: #9EB9D2;
+
+  /* Intensities */
+  --owf-glow-intensity-100: 0 0 32px;
+  --owf-glow-intensity-150: 0 0 40px;
+  --owf-glow-intensity-200: 0 0 52px;
+
+  /* Moods */
+  --owf-glow-mood-calm: 1;
+  --owf-glow-mood-hopeful: 1.08;
+  --owf-glow-mood-reflective: 0.94;
+  --owf-glow-mood-urgent: 1.12;
+
+  /* Time-of-Day */
+  --owf-glow-time-morning: 1.06;
+  --owf-glow-time-afternoon: 1;
+  --owf-glow-time-evening: 0.96;
+  --owf-glow-time-night: 0.90;
+
+  /* Composite */
+  --owf-glow-warm: var(--owf-glow-intensity-100) rgba(244, 217, 200, 0.55);
+  --owf-glow-neutral: var(--owf-glow-intensity-100) rgba(232, 232, 232, 0.55);
+  --owf-glow-cool: var(--owf-glow-intensity-100) rgba(201, 216, 232, 0.55);
+}
