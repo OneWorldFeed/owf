@@ -1,6 +1,7 @@
 /* ============================================================
    OWF NAVIGATION ENGINE — PHASE 4.4.4 (STATIC LAYOUT)
    Highlights active nav item based on hash route
+   Uses data-route instead of href
    ============================================================ */
 
 /* ---------------------------------------------
@@ -10,9 +11,9 @@ function updateActiveNav() {
   // Normalize route: "#/home" → "home"
   const route = location.hash.replace("#/", "") || "home";
 
-  document.querySelectorAll(".nav-item").forEach(link => {
-    const href = link.getAttribute("href").replace("#/", "");
-    link.classList.toggle("active", href === route);
+  document.querySelectorAll(".nav-item").forEach(item => {
+    const itemRoute = item.dataset.route;
+    item.classList.toggle("active", itemRoute === route);
   });
 }
 
@@ -20,12 +21,12 @@ function updateActiveNav() {
    Handle nav clicks (SPA routing)
 --------------------------------------------- */
 function handleNavClick(event) {
-  const link = event.target.closest(".nav-item");
-  if (!link) return;
+  const item = event.target.closest(".nav-item");
+  if (!item) return;
 
   event.preventDefault();
 
-  const route = link.getAttribute("href");
+  const route = item.dataset.route;
   location.hash = route;
 }
 
@@ -41,8 +42,8 @@ window.addEventListener("owf:view-loaded", updateActiveNav);
 
 // Bind click handlers once DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".nav-item").forEach(link => {
-    link.addEventListener("click", handleNavClick);
+  document.querySelectorAll(".nav-item").forEach(item => {
+    item.addEventListener("click", handleNavClick);
   });
 
   updateActiveNav();
