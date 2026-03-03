@@ -1,26 +1,34 @@
 /* ============================================================
-   OWF NAVIGATION ENGINE
-   Self-starting DOMContentLoaded removed — app.js orchestrates.
+   OWF NAVIGATION ENGINE — ORIGINAL VERSION
+   Uses <a href="#/route"> links
    ============================================================ */
 
 function updateActiveNav() {
   const route = location.hash.replace("#/", "") || "home";
+
   document.querySelectorAll(".nav-item").forEach(link => {
     const href = link.getAttribute("href").replace("#/", "");
     link.classList.toggle("active", href === route);
   });
 }
 
-export function initNav() {
+function handleNavClick(event) {
+  const link = event.target.closest(".nav-item");
+  if (!link) return;
+
+  event.preventDefault();
+
+  const route = link.getAttribute("href");
+  location.hash = route;
+}
+
+window.addEventListener("hashchange", updateActiveNav);
+window.addEventListener("owf:view-loaded", updateActiveNav);
+
+document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".nav-item").forEach(link => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      location.hash = link.getAttribute("href");
-    });
+    link.addEventListener("click", handleNavClick);
   });
 
   updateActiveNav();
-
-  // Keep nav in sync on back/forward
-  window.addEventListener("hashchange", updateActiveNav);
-}
+});
