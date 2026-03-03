@@ -1,6 +1,5 @@
 /* ============================================================
-   OWF FEED SYSTEM — PHASE 4.4.4 (CINEMATIC)
-   Composer • Pill filters • Glow cards • Inter/SF
+   OWF FEED SYSTEM — MOCKUP ALIGNED
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -18,71 +17,100 @@
 }
 
 .composer-avatar {
-  width: 44px;
-  height: 44px;
-  background: var(--owf-border-soft);
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  background: var(--owf-border-soft);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
 }
 
 .composer-input {
   flex: 1;
-  padding: var(--owf-space-sm) var(--owf-space-md);
-  border-radius: var(--owf-radius-lg);
-  border: 1px solid var(--owf-border-soft);
-  background: var(--owf-surface-alt);
-  transition: var(--owf-fade);
+  background: none;
+  border: none;
+  outline: none;
+  font-size: var(--owf-font-size-md);
+  color: var(--owf-text-primary);
+  font-family: var(--owf-font-family);
 }
 
-.composer-input:focus {
-  outline: none;
-  border-color: var(--owf-text-secondary);
-  background: var(--owf-surface);
+.composer-input::placeholder {
+  color: var(--owf-text-tertiary);
+}
+
+.composer-actions {
+  display: flex;
+  gap: var(--owf-space-sm);
+  align-items: center;
+}
+
+.composer-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--owf-text-secondary);
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.composer-action-btn:hover {
+  color: var(--owf-text-primary);
 }
 
 .composer-post-btn {
-  padding: var(--owf-space-sm) var(--owf-space-lg);
+  padding: var(--owf-space-xs) var(--owf-space-lg);
   border-radius: var(--owf-radius-md);
   background: var(--owf-text-primary);
   color: var(--owf-surface);
   border: none;
   cursor: pointer;
-  transition: var(--owf-fade);
+  font-size: var(--owf-font-size-sm);
+  font-weight: var(--owf-font-weight-semibold);
+  font-family: var(--owf-font-family);
+  transition: opacity 0.15s;
+  flex-shrink: 0;
 }
 
-.composer-post-btn:hover {
-  opacity: 0.85;
-}
+.composer-post-btn:hover { opacity: 0.8; }
 
 /* ------------------------------------------------------------
-   FEED FILTERS (PILL-SHAPED)
+   FEED FILTERS — underline style matching mockup
 ------------------------------------------------------------ */
 .feed-filters {
   display: flex;
-  gap: var(--owf-space-sm);
+  gap: 0;
   margin-bottom: var(--owf-space-lg);
+  border-bottom: 1px solid var(--owf-border-soft);
 }
 
 .filter {
-  padding: var(--owf-space-xs) var(--owf-space-lg);
-  border-radius: 999px; /* pill shape */
-  background: var(--owf-surface-alt);
-  border: 1px solid var(--owf-border-soft);
+  padding: var(--owf-space-sm) var(--owf-space-lg);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
   font-size: var(--owf-font-size-sm);
   font-weight: var(--owf-font-weight-medium);
+  color: var(--owf-text-secondary);
   cursor: pointer;
-  transition: var(--owf-fade);
+  transition: color 0.15s, border-color 0.15s;
+  font-family: var(--owf-font-family);
 }
 
-.filter:hover {
-  background: var(--owf-surface);
-  transform: var(--owf-hover-lift);
-}
+.filter:hover { color: var(--owf-text-primary); }
 
 .filter.active {
-  background: var(--owf-text-primary);
-  color: var(--owf-surface);
-  border-color: var(--owf-text-primary);
-  box-shadow: 0 0 18px var(--owf-glow-neutral);
+  color: var(--owf-text-primary);
+  border-bottom-color: var(--owf-text-primary);
+  font-weight: var(--owf-font-weight-semibold);
 }
 
 /* ------------------------------------------------------------
@@ -91,28 +119,25 @@
 .feed {
   display: flex;
   flex-direction: column;
-  gap: var(--owf-space-xl);
+  gap: var(--owf-space-lg);
 }
 
 /* ------------------------------------------------------------
-   FEED CARDS (CINEMATIC)
+   FEED CARDS
 ------------------------------------------------------------ */
 .feed-card {
   background: var(--owf-surface);
   padding: var(--owf-space-lg);
   border-radius: var(--owf-radius-xl);
   box-shadow: var(--owf-shadow-card);
-  transition: var(--owf-fade);
+  transition: transform var(--owf-motion-medium);
 }
 
-.feed-card:hover {
-  transform: var(--owf-hover-lift);
-}
+.feed-card:hover { transform: var(--owf-hover-lift); }
 
-/* Glow variants */
-.glow-warm { box-shadow: 0 0 32px var(--owf-glow-warm); }
+.glow-warm    { box-shadow: 0 0 32px var(--owf-glow-warm); }
 .glow-neutral { box-shadow: 0 0 32px var(--owf-glow-neutral); }
-.glow-cool { box-shadow: 0 0 32px var(--owf-glow-cool); }
+.glow-cool    { box-shadow: 0 0 32px var(--owf-glow-cool); }
 
 /* ------------------------------------------------------------
    CARD HEADER
@@ -124,22 +149,81 @@
   margin-bottom: var(--owf-space-sm);
 }
 
-.card-header .avatar {
+.card-avatar {
   width: 40px;
   height: 40px;
-  background: var(--owf-border-soft);
   border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  background: var(--owf-border-soft);
+  overflow: hidden;
 }
 
-.card-header .meta h3 {
+.card-avatar-news {
+  background: linear-gradient(135deg, #2a3a5a, #1a2a4a);
+  font-size: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.card-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-author-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.card-author {
   font-size: var(--owf-font-size-sm);
   font-weight: var(--owf-font-weight-semibold);
+  color: var(--owf-text-primary);
 }
 
-.card-header .meta span {
+.card-verified {
+  font-size: 0.7rem;
+}
+
+.card-badge {
+  font-size: 0.65rem;
+  color: var(--owf-text-tertiary);
+  letter-spacing: 0.05em;
+}
+
+.card-handle {
   font-size: var(--owf-font-size-xs);
   color: var(--owf-text-secondary);
 }
+
+.card-time {
+  font-size: var(--owf-font-size-xs);
+  color: var(--owf-text-secondary);
+  display: block;
+  margin-top: 1px;
+}
+
+.card-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--owf-text-secondary);
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+  flex-shrink: 0;
+  letter-spacing: 0.1em;
+}
+
+.card-menu-btn:hover { background: var(--owf-border-soft); }
 
 /* ------------------------------------------------------------
    CARD CONTENT
@@ -147,59 +231,233 @@
 .card-text {
   font-size: var(--owf-font-size-md);
   color: var(--owf-text-primary);
-  line-height: 1.5;
+  line-height: 1.55;
+  margin-bottom: var(--owf-space-sm);
 }
 
-/* Hero image */
+.news-text {
+  font-size: var(--owf-font-size-lg);
+  font-weight: var(--owf-font-weight-semibold);
+  line-height: 1.4;
+}
+
+.card-image-wrap {
+  border-radius: var(--owf-radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--owf-space-sm);
+}
+
+.card-image {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
 .hero-image {
   width: 100%;
   border-radius: var(--owf-radius-lg);
   margin-bottom: var(--owf-space-sm);
 }
 
-/* Image card */
-.card-image {
-  width: 100%;
-  border-radius: var(--owf-radius-lg);
+/* ------------------------------------------------------------
+   REACTIONS ROW
+------------------------------------------------------------ */
+.card-reactions {
+  display: flex;
+  gap: var(--owf-space-md);
+  align-items: center;
+  padding-top: var(--owf-space-sm);
+  border-top: 1px solid var(--owf-border-soft);
   margin-top: var(--owf-space-sm);
 }
 
-/* ------------------------------------------------------------
-   NEWS CARD
------------------------------------------------------------- */
-.news-title {
-  font-size: var(--owf-font-size-xl);
-  font-weight: var(--owf-font-weight-semibold);
-  margin-bottom: var(--owf-space-xs);
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--owf-font-size-sm);
+  color: var(--owf-text-secondary);
+  font-family: var(--owf-font-family);
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
 }
 
-.news-summary {
-  font-size: var(--owf-font-size-md);
-  color: var(--owf-text-secondary);
+.reaction-btn:hover {
+  color: var(--owf-text-primary);
+  background: var(--owf-border-soft);
 }
+
+.reaction-btn.liked { color: #e05a7a; }
+
+.reaction-btn.share-btn { margin-left: auto; }
 
 /* ------------------------------------------------------------
    MUSIC CARD
 ------------------------------------------------------------ */
 .music-player {
-  margin-top: var(--owf-space-sm);
   display: flex;
   align-items: center;
-  gap: var(--owf-space-sm);
+  gap: var(--owf-space-md);
+  margin-top: var(--owf-space-sm);
+  padding: var(--owf-space-sm) var(--owf-space-md);
+  background: var(--owf-surface-alt);
+  border-radius: var(--owf-radius-lg);
 }
 
 .play-btn {
-  padding: var(--owf-space-xs) var(--owf-space-md);
-  border-radius: var(--owf-radius-md);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   background: var(--owf-text-primary);
   color: var(--owf-surface);
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
 }
 
-.progress-bar {
+.play-btn:hover { opacity: 0.8; }
+
+.music-progress-wrap {
   flex: 1;
-  height: 6px;
+  min-width: 0;
+}
+
+.music-progress-bar {
+  height: 4px;
   background: var(--owf-border-soft);
   border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.music-progress-fill {
+  height: 100%;
+  background: var(--owf-text-primary);
+  border-radius: 4px;
+}
+
+.music-time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--owf-font-size-xs);
+  color: var(--owf-text-secondary);
+}
+
+.music-vol {
+  color: var(--owf-text-secondary);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------
+   COMPOSER ACTION ICONS (added from mockup)
+------------------------------------------------------------ */
+.composer-actions {
+  display: flex;
+  gap: var(--owf-space-sm);
+  align-items: center;
+}
+
+.composer-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--owf-text-secondary);
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  transition: color var(--owf-fade);
+}
+
+.composer-action-btn:hover { color: var(--owf-text-primary); }
+
+/* ------------------------------------------------------------
+   CARD MENU BUTTON (added from mockup)
+------------------------------------------------------------ */
+.card-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--owf-text-secondary);
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.1em;
+  transition: background var(--owf-fade);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.card-menu-btn:hover { background: var(--owf-border-soft); }
+
+/* ------------------------------------------------------------
+   REACTION ROW (added from mockup)
+------------------------------------------------------------ */
+.card-reactions {
+  display: flex;
+  gap: var(--owf-space-sm);
+  align-items: center;
+  padding-top: var(--owf-space-sm);
+  border-top: 1px solid var(--owf-border-soft);
+  margin-top: var(--owf-space-sm);
+}
+
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--owf-font-size-sm);
+  color: var(--owf-text-secondary);
+  font-family: var(--owf-font-family);
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color var(--owf-fade), background var(--owf-fade);
+}
+
+.reaction-btn:hover {
+  color: var(--owf-text-primary);
+  background: var(--owf-border-soft);
+}
+
+.reaction-btn.liked { color: #e05a7a; }
+.reaction-share { margin-left: auto; }
+
+/* ------------------------------------------------------------
+   MUSIC PROGRESS (added from mockup)
+------------------------------------------------------------ */
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--owf-border-soft);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--owf-text-primary);
+  border-radius: 4px;
+}
+
+.music-time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--owf-font-size-xs);
+  color: var(--owf-text-secondary);
+  margin-top: 4px;
+  flex: 1;
 }
