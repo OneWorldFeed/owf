@@ -1,11 +1,19 @@
 /* ============================================================
    OneWorldFeed • Left Panel Component
-   Glow Selector + Saved Glow Application
+   Radio Player • Glow Selector • Global Signals
    ============================================================ */
 
+import { initRadioPlayer } from "../radio/radio-player.js";
+import { initGlobalSignals } from "../../modules/right-panel/global-signals.js";
+
+/* ------------------------------------------------------------
+   Initialize Left Panel
+------------------------------------------------------------ */
 export function initLeftPanel() {
-  renderGlowSelector();
-  applySavedGlowToLeftPlayer();
+  initRadioPlayer();               // Mounts the radio UI
+  renderGlowSelector();            // Renders glow card + swatches
+  applySavedGlowToLeftPlayer();    // Applies saved glow class
+  initGlobalSignals();             // Mounts time/weather signals
 }
 
 /* ------------------------------------------------------------
