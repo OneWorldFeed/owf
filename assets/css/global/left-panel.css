@@ -19,6 +19,8 @@
   position: sticky;
   top: 0;
   overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
   flex-shrink: 0;
 }
 
