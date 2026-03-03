@@ -22,23 +22,16 @@
 
 /* ------------------------------------------------------------
    CENTER COLUMN (FEED AREA)
+   Entire column scrolls — header scrolls away with feed
 ------------------------------------------------------------ */
 .owf-center {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  padding: var(--owf-space-xl) var(--owf-space-xxl);
+  overflow-y: auto;
   background: var(--owf-surface-alt);
 }
 
-/* Feed area scrolls independently beneath the sticky header */
-#owf-page {
-  flex: 1;
-  overflow-y: auto;
-  padding: var(--owf-space-xl) var(--owf-space-xxl);
-}
-
 /* ------------------------------------------------------------
-   GLOBAL HEADER (STICKY — pins to top as feed scrolls)
+   GLOBAL HEADER (SCROLLS WITH FEED)
 ------------------------------------------------------------ */
 .owf-global-header {
   display: flex;
@@ -48,10 +41,7 @@
   padding: var(--owf-space-md) var(--owf-space-lg);
   border-radius: var(--owf-radius-xl);
   box-shadow: var(--owf-shadow-soft);
-  margin: var(--owf-space-lg) var(--owf-space-xxl) var(--owf-space-md);
-  position: sticky;
-  top: var(--owf-space-lg);
-  z-index: 10;
+  margin-bottom: var(--owf-space-xl);
 }
 
 .post-bar,
