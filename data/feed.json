@@ -1,8 +1,7 @@
 [
   {
     "type": "hero",
-    "hero": "./assets/img/hero/earthrise.jpg",
-    "heroFallback": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
+    "hero": "/assets/img/hero/earthrise.jpg",
     "glow": "warm",
     "text": "A global space for stories, music, news, and human connection."
   },
@@ -18,8 +17,7 @@
     "author": "Travel Journal",
     "time": "5h ago",
     "text": "Sunset over the Pacific tonight.",
-    "image": "./assets/img/posts/sunset.jpg",
-    "imageFallback": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+    "image": "/assets/img/posts/sunset.jpg",
     "glow": "cool"
   },
   {
@@ -27,8 +25,7 @@
     "author": "Culture Stream",
     "time": "1d ago",
     "text": "Street art from downtown LA this morning.",
-    "image": "./assets/img/posts/streetart.jpg",
-    "imageFallback": "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?w=800&q=80",
+    "image": "/assets/img/posts/streetart.jpg",
     "glow": "warm"
   },
   {
