@@ -2,7 +2,7 @@ import FeedCard from '@/components/cards/FeedCard';
 
 const posts = [
   {
-    id: '1', authorName: 'Amara Diallo', accolade: 'Community Favorite',, authorHandle: 'amaradiallo.feed',
+    id: '1', authorName: 'Amara Diallo', accolade: 'Community Favorite', authorHandle: 'amaradiallo.feed',
     city: 'Lagos', timeAgo: '2m ago', mood: 'electric' as const,
     safetyBadge: 'clear' as const, likeCount: 24, commentCount: 7,
     content: 'The energy in Lagos tonight is something else. The music never stops and neither do we. +lagos +nightlife',
