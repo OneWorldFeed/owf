@@ -1,4 +1,4 @@
-import FeedCard from '@/components/cards/FeedCard';
+import FeedTabs from '@/components/feed/FeedTabs';
 
 const posts = [
   {
@@ -12,7 +12,8 @@ const posts = [
     id: '2', authorName: 'Mei Tanaka', authorHandle: 'meitanaka.feed',
     city: 'Tokyo', timeAgo: '8m ago', mood: 'reflective' as const,
     likeCount: 41, commentCount: 12,
-    content: 'Cherry blossom season begins today. Every year I forget how quickly it goes. Sitting in Shinjuku Gyoen watching petals fall. +tokyo +cherryblossoms',
+    imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=800',
+    content: 'Cherry blossom season begins today. Every year I forget how quickly it goes. +tokyo +cherryblossoms',
   },
   {
     id: '3', authorName: 'Carlos Mendez', authorHandle: 'carlosmendez.feed',
@@ -30,6 +31,7 @@ const posts = [
     id: '5', authorName: 'Omar Hassan', authorHandle: 'omarhassan.feed',
     city: 'Cairo', timeAgo: '34m ago', mood: 'ancient' as const,
     likeCount: 33, commentCount: 8,
+    imageUrl: 'https://images.unsplash.com/photo-1539768942893-daf53e448371?w=800',
     content: 'The Nile at sunrise never gets old. Thousands of years of history in one view. +cairo +egypt +nile',
   },
   {
@@ -42,6 +44,7 @@ const posts = [
     id: '7', authorName: 'Kenji Mori', authorHandle: 'kenjimori.feed',
     city: 'Osaka', timeAgo: '55m ago', mood: 'curious' as const,
     likeCount: 29, commentCount: 11, trophy: true,
+    imageUrl: 'https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=800',
     content: 'Found a 100 year old ramen shop hidden in an alley. The owner is 87. Still cooking every day. +osaka +japan +food',
   },
   {
@@ -56,62 +59,19 @@ const posts = [
     safetyBadge: 'clear' as const, likeCount: 61, commentCount: 20,
     content: 'Accra is buzzing. New art, new music, new energy. The world needs to pay attention. +accra +ghana +afrobeats',
   },
+  {
+    id: '10', authorName: 'Jin Park', authorHandle: 'jinpark.feed',
+    city: 'Seoul', timeAgo: '1h ago', mood: 'electric' as const,
+    likeCount: 88, commentCount: 31,
+    imageUrl: 'https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?w=800',
+    content: 'Seoul at night from the rooftop. The city never sleeps and neither do we. +seoul +korea +nightlife',
+  },
 ];
 
 export default function Home() {
   return (
     <div className="px-3 md:px-6 py-4 max-w-5xl mx-auto">
-
-      {/* DESKTOP layout */}
-      <div className="hidden md:block">
-        <div className="mb-4">
-          <FeedCard {...posts[0]} featured />
-        </div>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <FeedCard {...posts[1]} />
-          <FeedCard {...posts[2]} />
-        </div>
-        <div className="grid grid-cols-3 gap-3 mb-4">
-          <FeedCard {...posts[3]} compact />
-          <FeedCard {...posts[4]} compact />
-          <FeedCard {...posts[5]} compact />
-        </div>
-        <div className="mb-4">
-          <FeedCard {...posts[6]} featured />
-        </div>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <FeedCard {...posts[7]} />
-          <FeedCard {...posts[8]} />
-        </div>
-      </div>
-
-      {/* MOBILE layout */}
-      <div className="block md:hidden">
-        <div className="mb-3">
-          <p className="text-xs font-semibold mb-2 px-1" style={{ color: 'var(--owf-text-secondary)' }}>
-            TRENDING NOW
-          </p>
-          <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
-            {posts.slice(0, 4).map((post) => (
-              <div key={post.id} className="flex-shrink-0 w-64 snap-start">
-                <FeedCard {...post} compact />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          <FeedCard {...posts[4]} compact />
-          <FeedCard {...posts[5]} compact />
-        </div>
-        <div className="mb-3">
-          <FeedCard {...posts[6]} featured />
-        </div>
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          <FeedCard {...posts[7]} compact />
-          <FeedCard {...posts[8]} compact />
-        </div>
-      </div>
-
+      <FeedTabs posts={posts} />
     </div>
   );
 }
