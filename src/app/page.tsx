@@ -2,9 +2,10 @@ import FeedCard from '@/components/cards/FeedCard';
 
 const posts = [
   {
-    id: '1', authorName: 'Amara Diallo', accolade: 'Community Favorite', authorHandle: 'amaradiallo.feed',
+    id: '1', authorName: 'Amara Diallo', authorHandle: 'amaradiallo.feed',
     city: 'Lagos', timeAgo: '2m ago', mood: 'electric' as const,
     safetyBadge: 'clear' as const, likeCount: 24, commentCount: 7,
+    accolade: 'Community Favorite',
     content: 'The energy in Lagos tonight is something else. The music never stops and neither do we. +lagos +nightlife',
   },
   {
@@ -38,9 +39,9 @@ const posts = [
     content: 'Tango in the street at midnight. A stranger asked me to dance and now we are friends. +buenosaires +tango',
   },
   {
-    id: '7', authorName: 'Kenji Mori', trophy: true,, authorHandle: 'kenjimori.feed',
+    id: '7', authorName: 'Kenji Mori', authorHandle: 'kenjimori.feed',
     city: 'Osaka', timeAgo: '55m ago', mood: 'curious' as const,
-    likeCount: 29, commentCount: 11,
+    likeCount: 29, commentCount: 11, trophy: true,
     content: 'Found a 100 year old ramen shop hidden in an alley. The owner is 87. Still cooking every day. +osaka +japan +food',
   },
   {
@@ -61,37 +62,31 @@ export default function Home() {
   return (
     <div className="px-3 md:px-6 py-4 max-w-5xl mx-auto">
 
-      {/* DESKTOP layout — hidden on mobile */}
+      {/* DESKTOP layout */}
       <div className="hidden md:block">
-        {/* Row 1 — Featured */}
         <div className="mb-4">
           <FeedCard {...posts[0]} featured />
         </div>
-        {/* Row 2 — Two col */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <FeedCard {...posts[1]} />
           <FeedCard {...posts[2]} />
         </div>
-        {/* Row 3 — Three col */}
         <div className="grid grid-cols-3 gap-3 mb-4">
           <FeedCard {...posts[3]} compact />
           <FeedCard {...posts[4]} compact />
           <FeedCard {...posts[5]} compact />
         </div>
-        {/* Row 4 — Featured */}
         <div className="mb-4">
           <FeedCard {...posts[6]} featured />
         </div>
-        {/* Row 5 — Two col */}
         <div className="grid grid-cols-2 gap-4 mb-4">
           <FeedCard {...posts[7]} />
           <FeedCard {...posts[8]} />
         </div>
       </div>
 
-      {/* MOBILE layout — hidden on desktop */}
+      {/* MOBILE layout */}
       <div className="block md:hidden">
-        {/* Row 1 — Horizontal scroll strip */}
         <div className="mb-3">
           <p className="text-xs font-semibold mb-2 px-1" style={{ color: 'var(--owf-text-secondary)' }}>
             TRENDING NOW
@@ -104,36 +99,16 @@ export default function Home() {
             ))}
           </div>
         </div>
-
-        {/* Row 2 — Two col grid */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <FeedCard {...posts[4]} compact />
           <FeedCard {...posts[5]} compact />
         </div>
-
-        {/* Row 3 — Full width featured */}
         <div className="mb-3">
           <FeedCard {...posts[6]} featured />
         </div>
-
-        {/* Row 4 — Two col grid */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <FeedCard {...posts[7]} compact />
           <FeedCard {...posts[8]} compact />
-        </div>
-
-        {/* Row 5 — Horizontal scroll strip */}
-        <div className="mb-3">
-          <p className="text-xs font-semibold mb-2 px-1" style={{ color: 'var(--owf-text-secondary)' }}>
-            FROM AROUND THE WORLD
-          </p>
-          <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
-            {posts.slice(0, 5).map((post) => (
-              <div key={post.id} className="flex-shrink-0 w-64 snap-start">
-                <FeedCard {...post} compact />
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
