@@ -2,9 +2,9 @@
   {
     "id": "electric",
     "label": "Electric",
-    "color": "#FBBF24",
-    "glowRgb": "251,191,36",
-    "glowMode": "gold",
+    "color": "#D97706",
+    "glowRgb": "217,119,6",
+    "glowMode": "amber",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.6
@@ -26,8 +26,8 @@
   {
     "id": "calm",
     "label": "Calm",
-    "color": "#7DD3FC",
-    "glowRgb": "125,211,252",
+    "color": "#0284C7",
+    "glowRgb": "2,132,199",
     "glowMode": "blue",
     "timeOfDay": {
       "dawn": {
@@ -50,9 +50,9 @@
   {
     "id": "joyful",
     "label": "Joyful",
-    "color": "#22C55E",
-    "glowRgb": "34,197,94",
-    "glowMode": "turquoise",
+    "color": "#059669",
+    "glowRgb": "5,150,105",
+    "glowMode": "emerald",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.7
@@ -74,8 +74,8 @@
   {
     "id": "reflective",
     "label": "Reflective",
-    "color": "#60A5FA",
-    "glowRgb": "96,165,250",
+    "color": "#2563EB",
+    "glowRgb": "37,99,235",
     "glowMode": "blue",
     "timeOfDay": {
       "dawn": {
@@ -98,9 +98,9 @@
   {
     "id": "curious",
     "label": "Curious",
-    "color": "#2DD4BF",
-    "glowRgb": "45,212,191",
-    "glowMode": "turquoise",
+    "color": "#0D9488",
+    "glowRgb": "13,148,136",
+    "glowMode": "teal",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.7
@@ -122,9 +122,9 @@
   {
     "id": "ambitious",
     "label": "Ambitious",
-    "color": "#F97316",
-    "glowRgb": "249,115,22",
-    "glowMode": "amber",
+    "color": "#EA580C",
+    "glowRgb": "234,88,12",
+    "glowMode": "orange",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.8
@@ -146,9 +146,9 @@
   {
     "id": "resilient",
     "label": "Resilient",
-    "color": "#D97706",
-    "glowRgb": "217,119,6",
-    "glowMode": "gold",
+    "color": "#B45309",
+    "glowRgb": "180,83,9",
+    "glowMode": "amber",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.7
@@ -170,9 +170,9 @@
   {
     "id": "hopeful",
     "label": "Hopeful",
-    "color": "#86EFAC",
-    "glowRgb": "134,239,172",
-    "glowMode": "turquoise",
+    "color": "#16A34A",
+    "glowRgb": "22,163,74",
+    "glowMode": "green",
     "timeOfDay": {
       "dawn": {
         "intensity": 1
@@ -194,9 +194,9 @@
   {
     "id": "melancholic",
     "label": "Melancholic",
-    "color": "#818CF8",
-    "glowRgb": "129,140,248",
-    "glowMode": "purple",
+    "color": "#4F46E5",
+    "glowRgb": "79,70,229",
+    "glowMode": "indigo",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.6
@@ -218,9 +218,9 @@
   {
     "id": "fragile",
     "label": "Fragile",
-    "color": "#FDA4AF",
-    "glowRgb": "253,164,175",
-    "glowMode": "rose",
+    "color": "#BE185D",
+    "glowRgb": "190,24,93",
+    "glowMode": "pink",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.8
@@ -242,9 +242,9 @@
   {
     "id": "ancient",
     "label": "Ancient",
-    "color": "#A78BFA",
-    "glowRgb": "167,139,250",
-    "glowMode": "purple",
+    "color": "#7C3AED",
+    "glowRgb": "124,58,237",
+    "glowMode": "violet",
     "timeOfDay": {
       "dawn": {
         "intensity": 0.9
@@ -266,8 +266,8 @@
   {
     "id": "silent",
     "label": "Silent",
-    "color": "#94A3B8",
-    "glowRgb": "148,163,184",
+    "color": "#475569",
+    "glowRgb": "71,85,105",
     "glowMode": "slate",
     "timeOfDay": {
       "dawn": {
