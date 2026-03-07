@@ -81,7 +81,6 @@ const ALL_CITIES = [
   { name: 'Auckland',      timezone: 'Pacific/Auckland',                    temp: 62, region: 'Oceania'  },
 ];
 
-const HOME_CITY = 'Lagos';
 const MAX_PINNED = 3;
 const REGIONS = ['All', 'Africa', 'Asia', 'Europe', 'Americas', 'Oceania'];
 
@@ -118,17 +117,21 @@ export default function RightPanel() {
   const [summaryResult, setSummaryResult] = useState('');
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [spotIdx, setSpotIdx] = useState(0);
+  const [homeCity, setHomeCity] = useState('Los Angeles');
   const [pinned, setPinned] = useState<string[]>(['Tokyo', 'London', 'New York']);
   const [showPicker, setShowPicker] = useState(false);
+  const [settingHome, setSettingHome] = useState(false);
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState('All');
 
   useEffect(() => {
     const t = localStorage.getItem('owf-theme') || 'light';
     const c = localStorage.getItem('owf-cities');
+    const h = localStorage.getItem('owf-home-city');
     setTheme(t);
     applyTheme(t);
     if (c) setPinned(JSON.parse(c));
+    if (h) setHomeCity(h);
     tick();
     const id = setInterval(tick, 30000);
     return () => clearInterval(id);
@@ -153,18 +156,29 @@ export default function RightPanel() {
   }
 
   function toggleCity(name: string) {
-    if (name === HOME_CITY) return;
+    if (name === homeCity) return;
     if (pinned.includes(name)) {
       const next = pinned.filter(c => c !== name);
       setPinned(next);
       localStorage.setItem('owf-cities', JSON.stringify(next));
     } else {
-      const nonHome = pinned.filter(c => c !== HOME_CITY);
+      const nonHome = pinned.filter(c => c !== homeCity);
       if (nonHome.length >= MAX_PINNED) return;
       const next = [...pinned, name];
       setPinned(next);
       localStorage.setItem('owf-cities', JSON.stringify(next));
     }
+  }
+
+  function setAsHome(name: string) {
+    const oldHome = homeCity;
+    setHomeCity(name);
+    localStorage.setItem('owf-home-city', name);
+    // remove new home from pinned if it was there, add old home to pinned
+    const next = pinned.filter(c => c !== name && c !== oldHome).slice(0, MAX_PINNED - 1);
+    setPinned(next);
+    localStorage.setItem('owf-cities', JSON.stringify(next));
+    setSettingHome(false);
   }
 
   const FEED_CONTEXT = `Lagos: "The energy in Lagos tonight is something else. The music never stops." +lagos +nightlife
@@ -221,9 +235,9 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
   }
 
   const displayCities = [
-    ALL_CITIES.find(c => c.name === HOME_CITY)!,
-    ...pinned.filter(n => n !== HOME_CITY).map(n => ALL_CITIES.find(c => c.name === n)!).filter(Boolean),
-  ];
+    ALL_CITIES.find(c => c.name === homeCity)!,
+    ...pinned.filter(n => n !== homeCity).map(n => ALL_CITIES.find(c => c.name === n)!).filter(Boolean),
+  ].filter(Boolean);
 
   const filteredCities = ALL_CITIES.filter(c => {
     const byRegion = region === 'All' || c.region === region;
@@ -231,7 +245,7 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
     return byRegion && bySearch;
   });
 
-  const nonHomePinned = pinned.filter(c => c !== HOME_CITY).length;
+  const nonHomePinned = pinned.filter(c => c !== homeCity).length;
   const spot = SPOTLIGHT[spotIdx];
 
   return (
@@ -360,13 +374,22 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
       <Card>
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-black tracking-widest" style={{ color: 'var(--owf-text-secondary)' }}>WORLD CLOCKS</p>
-          <button
-            onClick={() => setShowPicker(!showPicker)}
-            className="text-xs font-bold px-2 py-1 rounded-lg"
-            style={{ color: 'var(--owf-gold)', backgroundColor: '#D9770618', border: '1px solid #D9770633' }}
-          >
-            {showPicker ? 'Done' : '+ Cities'}
-          </button>
+          <div className="flex gap-1">
+            <button
+              onClick={() => { setSettingHome(!settingHome); setShowPicker(false); setSearch(''); setRegion('All'); }}
+              className="text-xs font-bold px-2 py-1 rounded-lg"
+              style={{ color: settingHome ? '#fff' : 'var(--owf-gold)', backgroundColor: settingHome ? 'var(--owf-gold)' : '#D9770618', border: '1px solid #D9770633' }}
+            >
+              {settingHome ? 'Cancel' : '🏠'}
+            </button>
+            <button
+              onClick={() => { setShowPicker(!showPicker); setSettingHome(false); setSearch(''); setRegion('All'); }}
+              className="text-xs font-bold px-2 py-1 rounded-lg"
+              style={{ color: showPicker ? '#fff' : 'var(--owf-gold)', backgroundColor: showPicker ? 'var(--owf-gold)' : '#D9770618', border: '1px solid #D9770633' }}
+            >
+              {showPicker ? 'Done' : '+ Cities'}
+            </button>
+          </div>
         </div>
 
         {!showPicker && (
@@ -379,7 +402,7 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
                 <div>
                   <div className="flex items-center gap-1.5">
                     <p className="text-sm font-bold" style={{ color: 'var(--owf-text-primary)' }}>{city.name}</p>
-                    {i === 0 && (
+                    {city.name === homeCity && (
                       <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--owf-gold)', color: '#fff' }}>HOME</span>
                     )}
                   </div>
@@ -387,12 +410,49 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold" style={{ color: 'var(--owf-text-secondary)' }}>{city.temp}°F</span>
-                  {i > 0 && (
+                  {city.name !== homeCity && (
                     <button onClick={() => toggleCity(city.name)} className="text-xs opacity-40 hover:opacity-100" style={{ color: 'var(--owf-text-secondary)' }}>✕</button>
                   )}
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {settingHome && (
+          <div>
+            <p className="text-xs mb-2 font-semibold" style={{ color: 'var(--owf-text-secondary)' }}>
+              Tap a city to set as your home
+            </p>
+            <input
+              type="text" value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search cities..."
+              className="w-full text-xs px-3 py-2 rounded-xl mb-2 focus:outline-none"
+              style={{ backgroundColor: 'var(--owf-bg)', border: '1px solid var(--owf-border)', color: 'var(--owf-text-primary)' }}
+            />
+            <div className="flex gap-1 flex-wrap mb-2">
+              {REGIONS.map(r => (
+                <button key={r} onClick={() => setRegion(r)}
+                  className="text-[10px] font-bold px-2 py-1 rounded-lg"
+                  style={{ backgroundColor: region === r ? 'var(--owf-gold)' : 'var(--owf-bg)', color: region === r ? '#fff' : 'var(--owf-text-secondary)', border: '1px solid var(--owf-border)' }}>
+                  {r}
+                </button>
+              ))}
+            </div>
+            <div className="space-y-1 max-h-56 overflow-y-auto">
+              {filteredCities.map(city => (
+                <button key={city.name} onClick={() => setAsHome(city.name)}
+                  className="w-full flex items-center justify-between py-1.5 px-2 rounded-xl transition-all"
+                  style={{ backgroundColor: city.name === homeCity ? 'var(--owf-gold)18' : 'transparent' }}>
+                  <div className="flex items-center gap-2">
+                    {city.name === homeCity && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--owf-gold)', color: '#fff' }}>HOME</span>}
+                    <span className="text-xs font-semibold" style={{ color: 'var(--owf-text-primary)' }}>{city.name}</span>
+                  </div>
+                  <span className="text-[10px]" style={{ color: 'var(--owf-text-secondary)' }}>{city.region}</span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
@@ -424,7 +484,7 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
             <div className="space-y-1 max-h-56 overflow-y-auto">
               {filteredCities.map(city => {
                 const isPinned = pinned.includes(city.name);
-                const isHome = city.name === HOME_CITY;
+                const isHome = city.name === homeCity;
                 const atMax = !isPinned && !isHome && nonHomePinned >= MAX_PINNED;
                 return (
                   <button
