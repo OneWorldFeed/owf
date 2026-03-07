@@ -10,6 +10,7 @@
 ============================================================ */
 
 import { detectIntent } from './router';
+import { rulesEngineCall } from './rules-engine';
 import { getWeather, getTime, getNews, getSearch } from './connectors';
 import { copilotCall, type Lens, type CopilotMessage, type CopilotResponse } from './copilot';
 
@@ -25,7 +26,31 @@ export async function escalatingCall(
   history: CopilotMessage[] = [],
 ): Promise<EscalatedResponse> {
 
+  // Check if API key is available — if not, use rules engine
+  const hasApiKey = typeof process !== 'undefined'
+    ? curl -s -o /dev/null -w %{http_code} https://api.anthropic.comprocess.env.NEXT_PUBLIC_ANTHROPIC_API_KEY
+    : false;
+
   const intent = detectIntent(userMessage);
+
+    const rules = rulesEngineCall(userMessage);
+    return {
+      text: rules.text,
+      lens,
+      lensVersion: 'rules-v1',
+      ring: 'civic',
+      blocked: false,
+      escalated: false,
+      telemetry: {
+        timestamp: new Date().toISOString(),
+        lens, lensVersion: 'rules-v1', safetyVersion: 'v1',
+        ring: 'civic', blocked: false,
+        inputLength: userMessage.length,
+        outputLength: rules.text.length,
+        durationMs: 0,
+      },
+    };
+  }
 
   // LOCAL — no escalation needed
   if (intent.intent === 'local') {
