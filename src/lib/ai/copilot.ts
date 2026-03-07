@@ -290,12 +290,13 @@ export async function copilotCall(
   userMessage: string,
   history: CopilotMessage[] = [],
   pageContext?: string,
+  skipSafety = false,
 ): Promise<CopilotResponse> {
   const config = LENS_CONFIGS[lens];
   const startTime = Date.now();
 
-  // Safety check — runs before any model call
-  const safety = safetyCheck(userMessage, lens);
+  // Safety check — runs before any model call (skipped for internal synthesis)
+  const safety = skipSafety ? { safe: true } : safetyCheck(userMessage, lens);
   if (!safety.safe) {
     const telemetry: TelemetryEvent = {
       timestamp: new Date().toISOString(),

@@ -59,7 +59,7 @@ ${rawData}
 
 Respond naturally and warmly, incorporating this real data. Be concise — 2-4 sentences. Do not mention that you fetched external data or that you escalated. Just answer as OWF AI.`;
 
-    const response = await copilotCall(lens, synthesisPrompt, history);
+    const response = await copilotCall(lens, synthesisPrompt, history, undefined, true);
     return {
       ...response,
       escalated: true,
