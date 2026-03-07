@@ -100,7 +100,7 @@ const ALL_CITIES = [
   { name: 'Auckland',      timezone: 'Pacific/Auckland',     temp: 62,  region: 'Oceania' },
 ];
 
-const DEFAULT_PINNED = ['Lagos', 'Tokyo', 'London', 'New York', 'São Paulo'];
+const DEFAULT_PINNED = ['Tokyo', 'London', 'New York'];
 const USER_HOME_CITY = 'Lagos'; // TODO: pull from user profile
 
 function getLocalTime(timezone: string) {
@@ -160,13 +160,19 @@ export default function RightPanel() {
     localStorage.setItem('owf-theme', id);
   };
 
+  const MAX_CITIES = 3;
   const toggleCity = (cityName: string) => {
-    if (cityName === USER_HOME_CITY) return; // home city always pinned
-    const next = pinnedCities.includes(cityName)
-      ? pinnedCities.filter(c => c !== cityName)
-      : [...pinnedCities, cityName];
-    setPinnedCities(next);
-    localStorage.setItem('owf-cities', JSON.stringify(next));
+    if (cityName === USER_HOME_CITY) return;
+    if (pinnedCities.includes(cityName)) {
+      const next = pinnedCities.filter(c => c !== cityName);
+      setPinnedCities(next);
+      localStorage.setItem('owf-cities', JSON.stringify(next));
+    } else {
+      if (pinnedCities.filter(c => c !== USER_HOME_CITY).length >= MAX_CITIES) return;
+      const next = [...pinnedCities, cityName];
+      setPinnedCities(next);
+      localStorage.setItem('owf-cities', JSON.stringify(next));
+    }
   };
 
   const handleAI = async () => {
@@ -309,6 +315,12 @@ export default function RightPanel() {
         {/* City picker */}
         {showCityPicker && (
           <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs" style={{ color: 'var(--owf-text-secondary)' }}>Select up to 3 cities</span>
+              <span className="text-xs font-black" style={{ color: pinnedCities.filter((c: string) => c !== USER_HOME_CITY).length >= 3 ? '#EF4444' : 'var(--owf-gold)' }}>
+                {pinnedCities.filter((c: string) => c !== USER_HOME_CITY).length}/3
+              </span>
+            </div>
             <input type="text" value={citySearch} onChange={e => setCitySearch(e.target.value)}
               placeholder="Search cities..."
               className="w-full text-xs px-3 py-2 rounded-xl mb-3 focus:outline-none"
@@ -331,8 +343,7 @@ export default function RightPanel() {
                 return (
                   <button key={city.name} onClick={() => toggleCity(city.name)}
                     className="w-full flex items-center justify-between py-1.5 px-2 rounded-xl transition-all"
-                    style={{ backgroundColor: pinned ? 'var(--owf-gold)' + '12' : 'transparent' }}
-                    disabled={isHome}>
+undefined
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded flex items-center justify-center text-xs"
                         style={{ backgroundColor: pinned ? 'var(--owf-gold)' : 'var(--owf-border)', color: pinned ? '#fff' : 'transparent' }}>
