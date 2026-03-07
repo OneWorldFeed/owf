@@ -1,3 +1,4 @@
+import React from 'react';
 'use client';
 import { useState, useRef } from 'react';
 import FeedCard from '@/components/cards/FeedCard';
@@ -223,7 +224,7 @@ function EmptyState({ icon, label }: { icon: string; label: string }) {
 
 function MixedGrid({ posts }: { posts: Post[] }) {
   if (posts.length === 0) return <EmptyState icon="◎" label="No posts here yet" />;
-  const rows: JSX.Element[] = [];
+  const rows: React.ReactElement[] = [];
   let i = 0;
   let rowIndex = 0;
   const patterns = ['featured', 'two', 'three', 'featured', 'two'] as const;
