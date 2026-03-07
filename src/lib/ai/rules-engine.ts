@@ -59,7 +59,7 @@ export function getMoodOfTheDay(): { mood: string; text: string } {
 
 /* ── CITY FACTS ───────────────────────────────────────────── */
 const CITY_FACTS: Record<string, { known: string; culture: string; population: string; tz: string; feel: string }> = {
-  'lagos':        { known: 'Afrobeats, Nollywood, and one of Africa's most electric economies', culture: 'vibrant, entrepreneurial, loud with music and ambition', population: '15 million+', tz: 'WAT (UTC+1)', feel: 'electric' },
+  'lagos':        { known: 'Afrobeats, Nollywood, and one of Africas most electric economies', culture: 'vibrant, entrepreneurial, loud with music and ambition', population: '15 million+', tz: 'WAT (UTC+1)', feel: 'electric' },
   'tokyo':        { known: 'precision, street food, cherry blossoms, and neon-lit silence', culture: 'deeply ceremonial, quietly innovative, layered with beauty', population: '14 million+', tz: 'JST (UTC+9)', feel: 'curious' },
   'cairo':        { known: 'the pyramids, the Nile, and five thousand years of continuous civilization', culture: 'ancient and modern at once — merchants, scholars, and storytellers', population: '21 million+', tz: 'EET (UTC+2)', feel: 'ancient' },
   'nairobi':      { known: 'tech innovation, safari culture, and a young, fast-moving population', culture: 'entrepreneurial, community-driven, globally connected', population: '5 million+', tz: 'EAT (UTC+3)', feel: 'hopeful' },
@@ -164,7 +164,7 @@ const CAPTION_TEMPLATES = [
 
 /* ── OWF PLATFORM HELP ────────────────────────────────────── */
 const PLATFORM_HELP: Record<string, string> = {
-  'handle|.feed':   'On OWF, handles end in .feed — like amaradiallo.feed. No @ symbol. It's your identity on the platform.',
+  'handle|.feed':   'On OWF, handles end in .feed — like amaradiallo.feed. No @ symbol. It is your identity on the platform.',
   'tag|\+':        'OWF uses +tags instead of hashtags. Always start with a + sign — like +lagos or +music. They connect your post to global conversations.',
   'mood':           'Every post has a mood — electric, joyful, reflective, hopeful, ambitious, curious, resilient, melancholic, or calm. It sets the tone for how your post feels in the feed.',
   'global moment':  'Global Moments are live events happening across the world — festivals, cultural moments, movements. Find them in the strip at the top of the feed.',
@@ -185,7 +185,7 @@ const ENCOURAGEMENT = [
   'The feed carries things like this across cities and timezones. What you feel here, someone else is feeling on the other side of the world.',
 ];
 
-const PERSONAL_SIGNALS = ['i feel', 'i am', 'i'm', 'i lost', 'i miss', 'struggling', 'hard day', 'difficult', 'not okay', 'overwhelmed', 'proud', 'excited about', 'can't believe', 'finally'];
+const PERSONAL_SIGNALS = ['i feel', 'i am', 'i am', 'i lost', 'i miss', 'struggling', 'hard day', 'difficult', 'not okay', 'overwhelmed', 'proud', 'excited about', 'cannot believe', 'finally'];
 
 /* ── HELPERS ──────────────────────────────────────────────── */
 function getRandom(arr: string[]): string {
