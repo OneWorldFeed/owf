@@ -1,23 +1,15 @@
 'use client';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const THEMES = [
-  { id: 'light',    label: 'Light',    vars: { '--owf-bg': '#F9FAFB', '--owf-surface': '#FFFFFF', '--owf-border': '#E5E7EB', '--owf-text-primary': '#111827', '--owf-text-secondary': '#6B7280', '--owf-navy': '#0D1F35' } },
-  { id: 'dark',     label: 'Dark',     vars: { '--owf-bg': '#060E1A', '--owf-surface': '#0D1F35', '--owf-border': '#1E3A5F', '--owf-text-primary': '#F9FAFB', '--owf-text-secondary': '#9CA3AF', '--owf-navy': '#1E3A5F' } },
-  { id: 'midnight', label: 'Midnight', vars: { '--owf-bg': '#0A0A0F', '--owf-surface': '#13131A', '--owf-border': '#1F1F2E', '--owf-text-primary': '#E2E8F0', '--owf-text-secondary': '#718096', '--owf-navy': '#1F1F2E' } },
-  { id: 'warm',     label: 'Warm',     vars: { '--owf-bg': '#FDFAF6', '--owf-surface': '#FFFBF5', '--owf-border': '#E8DDD0', '--owf-text-primary': '#2D1B0E', '--owf-text-secondary': '#7C6555', '--owf-navy': '#2D1B0E' } },
-  { id: 'forest',   label: 'Forest',   vars: { '--owf-bg': '#F0F4F0', '--owf-surface': '#E8F0E8', '--owf-border': '#C8D8C8', '--owf-text-primary': '#1A2E1A', '--owf-text-secondary': '#4A6A4A', '--owf-navy': '#1A2E1A' } },
+  { id: 'light',    label: 'Light',    gradient: 'linear-gradient(135deg, #F9FAFB, #FFFFFF)',   vars: { '--owf-bg': '#F9FAFB', '--owf-surface': '#FFFFFF', '--owf-border': '#E5E7EB', '--owf-text-primary': '#111827', '--owf-text-secondary': '#6B7280', '--owf-navy': '#0D1F35' } },
+  { id: 'dark',     label: 'Dark',     gradient: 'linear-gradient(135deg, #060E1A, #0D1F35)',   vars: { '--owf-bg': '#060E1A', '--owf-surface': '#0D1F35', '--owf-border': '#1E3A5F', '--owf-text-primary': '#F9FAFB', '--owf-text-secondary': '#9CA3AF', '--owf-navy': '#1E3A5F' } },
+  { id: 'midnight', label: 'Midnight', gradient: 'linear-gradient(135deg, #0A0A0F, #13131A)',   vars: { '--owf-bg': '#0A0A0F', '--owf-surface': '#13131A', '--owf-border': '#1F1F2E', '--owf-text-primary': '#E2E8F0', '--owf-text-secondary': '#718096', '--owf-navy': '#1F1F2E' } },
+  { id: 'warm',     label: 'Warm',     gradient: 'linear-gradient(135deg, #ffb36b, #ff6f91)',   vars: { '--owf-bg': '#FDFAF6', '--owf-surface': '#FFFBF5', '--owf-border': '#E8DDD0', '--owf-text-primary': '#2D1B0E', '--owf-text-secondary': '#7C6555', '--owf-navy': '#2D1B0E' } },
+  { id: 'forest',   label: 'Forest',   gradient: 'linear-gradient(135deg, #2d6a2d, #4a9e4a)',   vars: { '--owf-bg': '#F0F4F0', '--owf-surface': '#E8F0E8', '--owf-border': '#C8D8C8', '--owf-text-primary': '#1A2E1A', '--owf-text-secondary': '#4A6A4A', '--owf-navy': '#1A2E1A' } },
 ];
 
-const THEME_GRADIENTS: Record<string, string> = {
-  light:    'linear-gradient(135deg, #F9FAFB, #FFFFFF)',
-  dark:     'linear-gradient(135deg, #060E1A, #0D1F35)',
-  midnight: 'linear-gradient(135deg, #0A0A0F, #13131A)',
-  warm:     'linear-gradient(135deg, #ffb36b, #ff6f91)',
-  forest:   'linear-gradient(135deg, #2d6a2d, #4a9e4a)',
-};
-
-const TRENDING_TAGS = [
+const TRENDING = [
   { tag: '+lagos',          count: '12.4k', color: '#D97706' },
   { tag: '+cherryblossoms', count: '8.1k',  color: '#2563EB' },
   { tag: '+ramadan',        count: '89.2k', color: '#7C3AED' },
@@ -28,8 +20,8 @@ const TRENDING_TAGS = [
 ];
 
 const SPOTLIGHT = [
-  { title: 'Sunrise in Tokyo',          subtitle: 'A new day begins',              image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600' },
-  { title: 'Voices of Nairobi',         subtitle: 'Street stories at golden hour', image: 'https://images.unsplash.com/photo-1611348586840-ea9872d33411?w=600' },
+  { title: 'Sunrise in Tokyo',       subtitle: 'A new day begins',              image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600' },
+  { title: 'Voices of Nairobi',      subtitle: 'Street stories at golden hour', image: 'https://images.unsplash.com/photo-1611348586840-ea9872d33411?w=600' },
 ];
 
 const WHO_TO_FOLLOW = [
@@ -38,76 +30,70 @@ const WHO_TO_FOLLOW = [
   { name: 'Lena Müller',  handle: 'lenamuller.feed',  color: '#B45309' },
 ];
 
-// All major world cities
 const ALL_CITIES = [
-  // Africa
-  { name: 'Lagos',         timezone: 'Africa/Lagos',         temp: 88,  region: 'Africa' },
-  { name: 'Cairo',         timezone: 'Africa/Cairo',         temp: 82,  region: 'Africa' },
-  { name: 'Nairobi',       timezone: 'Africa/Nairobi',       temp: 70,  region: 'Africa' },
-  { name: 'Accra',         timezone: 'Africa/Accra',         temp: 85,  region: 'Africa' },
-  { name: 'Johannesburg',  timezone: 'Africa/Johannesburg',  temp: 68,  region: 'Africa' },
-  { name: 'Casablanca',    timezone: 'Africa/Casablanca',    temp: 72,  region: 'Africa' },
-  { name: 'Addis Ababa',   timezone: 'Africa/Addis_Ababa',   temp: 65,  region: 'Africa' },
-  // Asia
-  { name: 'Tokyo',         timezone: 'Asia/Tokyo',           temp: 72,  region: 'Asia' },
-  { name: 'Mumbai',        timezone: 'Asia/Kolkata',         temp: 91,  region: 'Asia' },
-  { name: 'Shanghai',      timezone: 'Asia/Shanghai',        temp: 68,  region: 'Asia' },
-  { name: 'Beijing',       timezone: 'Asia/Shanghai',        temp: 62,  region: 'Asia' },
-  { name: 'Seoul',         timezone: 'Asia/Seoul',           temp: 58,  region: 'Asia' },
-  { name: 'Singapore',     timezone: 'Asia/Singapore',       temp: 86,  region: 'Asia' },
-  { name: 'Bangkok',       timezone: 'Asia/Bangkok',         temp: 92,  region: 'Asia' },
-  { name: 'Dubai',         timezone: 'Asia/Dubai',           temp: 95,  region: 'Asia' },
-  { name: 'Karachi',       timezone: 'Asia/Karachi',         temp: 89,  region: 'Asia' },
-  { name: 'Jakarta',       timezone: 'Asia/Jakarta',         temp: 88,  region: 'Asia' },
-  { name: 'Dhaka',         timezone: 'Asia/Dhaka',           temp: 87,  region: 'Asia' },
-  { name: 'Osaka',         timezone: 'Asia/Tokyo',           temp: 70,  region: 'Asia' },
-  { name: 'Taipei',        timezone: 'Asia/Taipei',          temp: 75,  region: 'Asia' },
-  { name: 'Kuala Lumpur',  timezone: 'Asia/Kuala_Lumpur',    temp: 88,  region: 'Asia' },
-  { name: 'Manila',        timezone: 'Asia/Manila',          temp: 90,  region: 'Asia' },
-  { name: 'Ho Chi Minh',   timezone: 'Asia/Ho_Chi_Minh',     temp: 91,  region: 'Asia' },
-  { name: 'Tehran',        timezone: 'Asia/Tehran',          temp: 74,  region: 'Asia' },
-  { name: 'Riyadh',        timezone: 'Asia/Riyadh',          temp: 98,  region: 'Asia' },
-  { name: 'Istanbul',      timezone: 'Europe/Istanbul',      temp: 65,  region: 'Asia' },
-  // Europe
-  { name: 'London',        timezone: 'Europe/London',        temp: 58,  region: 'Europe' },
-  { name: 'Paris',         timezone: 'Europe/Paris',         temp: 60,  region: 'Europe' },
-  { name: 'Berlin',        timezone: 'Europe/Berlin',        temp: 52,  region: 'Europe' },
-  { name: 'Madrid',        timezone: 'Europe/Madrid',        temp: 66,  region: 'Europe' },
-  { name: 'Rome',          timezone: 'Europe/Rome',          temp: 64,  region: 'Europe' },
-  { name: 'Amsterdam',     timezone: 'Europe/Amsterdam',     temp: 55,  region: 'Europe' },
-  { name: 'Moscow',        timezone: 'Europe/Moscow',        temp: 38,  region: 'Europe' },
-  { name: 'Stockholm',     timezone: 'Europe/Stockholm',     temp: 44,  region: 'Europe' },
-  { name: 'Zurich',        timezone: 'Europe/Zurich',        temp: 50,  region: 'Europe' },
-  { name: 'Vienna',        timezone: 'Europe/Vienna',        temp: 54,  region: 'Europe' },
-  { name: 'Warsaw',        timezone: 'Europe/Warsaw',        temp: 48,  region: 'Europe' },
-  { name: 'Kyiv',          timezone: 'Europe/Kiev',          temp: 46,  region: 'Europe' },
-  // Americas
-  { name: 'New York',      timezone: 'America/New_York',     temp: 65,  region: 'Americas' },
-  { name: 'Los Angeles',   timezone: 'America/Los_Angeles',  temp: 72,  region: 'Americas' },
-  { name: 'Chicago',       timezone: 'America/Chicago',      temp: 58,  region: 'Americas' },
-  { name: 'São Paulo',     timezone: 'America/Sao_Paulo',    temp: 75,  region: 'Americas' },
-  { name: 'Mexico City',   timezone: 'America/Mexico_City',  temp: 70,  region: 'Americas' },
-  { name: 'Buenos Aires',  timezone: 'America/Argentina/Buenos_Aires', temp: 68, region: 'Americas' },
-  { name: 'Toronto',       timezone: 'America/Toronto',      temp: 55,  region: 'Americas' },
-  { name: 'Miami',         timezone: 'America/New_York',     temp: 80,  region: 'Americas' },
-  { name: 'Bogotá',        timezone: 'America/Bogota',       temp: 64,  region: 'Americas' },
-  { name: 'Lima',          timezone: 'America/Lima',         temp: 68,  region: 'Americas' },
-  { name: 'Santiago',      timezone: 'America/Santiago',     temp: 62,  region: 'Americas' },
-  { name: 'Havana',        timezone: 'America/Havana',       temp: 82,  region: 'Americas' },
-  // Oceania
-  { name: 'Sydney',        timezone: 'Australia/Sydney',     temp: 74,  region: 'Oceania' },
-  { name: 'Melbourne',     timezone: 'Australia/Melbourne',  temp: 68,  region: 'Oceania' },
-  { name: 'Auckland',      timezone: 'Pacific/Auckland',     temp: 62,  region: 'Oceania' },
+  { name: 'Lagos',         timezone: 'Africa/Lagos',                        temp: 88, region: 'Africa'   },
+  { name: 'Cairo',         timezone: 'Africa/Cairo',                        temp: 82, region: 'Africa'   },
+  { name: 'Nairobi',       timezone: 'Africa/Nairobi',                      temp: 70, region: 'Africa'   },
+  { name: 'Accra',         timezone: 'Africa/Accra',                        temp: 85, region: 'Africa'   },
+  { name: 'Johannesburg',  timezone: 'Africa/Johannesburg',                 temp: 68, region: 'Africa'   },
+  { name: 'Casablanca',    timezone: 'Africa/Casablanca',                   temp: 72, region: 'Africa'   },
+  { name: 'Addis Ababa',   timezone: 'Africa/Addis_Ababa',                  temp: 65, region: 'Africa'   },
+  { name: 'Dar es Salaam', timezone: 'Africa/Dar_es_Salaam',                temp: 82, region: 'Africa'   },
+  { name: 'Tokyo',         timezone: 'Asia/Tokyo',                          temp: 72, region: 'Asia'     },
+  { name: 'Mumbai',        timezone: 'Asia/Kolkata',                        temp: 91, region: 'Asia'     },
+  { name: 'Shanghai',      timezone: 'Asia/Shanghai',                       temp: 68, region: 'Asia'     },
+  { name: 'Beijing',       timezone: 'Asia/Shanghai',                       temp: 62, region: 'Asia'     },
+  { name: 'Seoul',         timezone: 'Asia/Seoul',                          temp: 58, region: 'Asia'     },
+  { name: 'Singapore',     timezone: 'Asia/Singapore',                      temp: 86, region: 'Asia'     },
+  { name: 'Bangkok',       timezone: 'Asia/Bangkok',                        temp: 92, region: 'Asia'     },
+  { name: 'Dubai',         timezone: 'Asia/Dubai',                          temp: 95, region: 'Asia'     },
+  { name: 'Jakarta',       timezone: 'Asia/Jakarta',                        temp: 88, region: 'Asia'     },
+  { name: 'Osaka',         timezone: 'Asia/Tokyo',                          temp: 70, region: 'Asia'     },
+  { name: 'Taipei',        timezone: 'Asia/Taipei',                         temp: 75, region: 'Asia'     },
+  { name: 'Kuala Lumpur',  timezone: 'Asia/Kuala_Lumpur',                   temp: 88, region: 'Asia'     },
+  { name: 'Manila',        timezone: 'Asia/Manila',                         temp: 90, region: 'Asia'     },
+  { name: 'Tehran',        timezone: 'Asia/Tehran',                         temp: 74, region: 'Asia'     },
+  { name: 'Riyadh',        timezone: 'Asia/Riyadh',                         temp: 98, region: 'Asia'     },
+  { name: 'Istanbul',      timezone: 'Europe/Istanbul',                     temp: 65, region: 'Asia'     },
+  { name: 'London',        timezone: 'Europe/London',                       temp: 58, region: 'Europe'   },
+  { name: 'Paris',         timezone: 'Europe/Paris',                        temp: 60, region: 'Europe'   },
+  { name: 'Berlin',        timezone: 'Europe/Berlin',                       temp: 52, region: 'Europe'   },
+  { name: 'Madrid',        timezone: 'Europe/Madrid',                       temp: 66, region: 'Europe'   },
+  { name: 'Rome',          timezone: 'Europe/Rome',                         temp: 64, region: 'Europe'   },
+  { name: 'Amsterdam',     timezone: 'Europe/Amsterdam',                    temp: 55, region: 'Europe'   },
+  { name: 'Moscow',        timezone: 'Europe/Moscow',                       temp: 38, region: 'Europe'   },
+  { name: 'Stockholm',     timezone: 'Europe/Stockholm',                    temp: 44, region: 'Europe'   },
+  { name: 'Zurich',        timezone: 'Europe/Zurich',                       temp: 50, region: 'Europe'   },
+  { name: 'Vienna',        timezone: 'Europe/Vienna',                       temp: 54, region: 'Europe'   },
+  { name: 'New York',      timezone: 'America/New_York',                    temp: 65, region: 'Americas' },
+  { name: 'Los Angeles',   timezone: 'America/Los_Angeles',                 temp: 72, region: 'Americas' },
+  { name: 'Chicago',       timezone: 'America/Chicago',                     temp: 58, region: 'Americas' },
+  { name: 'São Paulo',     timezone: 'America/Sao_Paulo',                   temp: 75, region: 'Americas' },
+  { name: 'Mexico City',   timezone: 'America/Mexico_City',                 temp: 70, region: 'Americas' },
+  { name: 'Buenos Aires',  timezone: 'America/Argentina/Buenos_Aires',      temp: 68, region: 'Americas' },
+  { name: 'Toronto',       timezone: 'America/Toronto',                     temp: 55, region: 'Americas' },
+  { name: 'Miami',         timezone: 'America/New_York',                    temp: 80, region: 'Americas' },
+  { name: 'Bogotá',        timezone: 'America/Bogota',                      temp: 64, region: 'Americas' },
+  { name: 'Lima',          timezone: 'America/Lima',                        temp: 68, region: 'Americas' },
+  { name: 'Santiago',      timezone: 'America/Santiago',                    temp: 62, region: 'Americas' },
+  { name: 'Sydney',        timezone: 'Australia/Sydney',                    temp: 74, region: 'Oceania'  },
+  { name: 'Melbourne',     timezone: 'Australia/Melbourne',                 temp: 68, region: 'Oceania'  },
+  { name: 'Auckland',      timezone: 'Pacific/Auckland',                    temp: 62, region: 'Oceania'  },
 ];
 
-const DEFAULT_PINNED = ['Tokyo', 'London', 'New York'];
-const USER_HOME_CITY = 'Lagos'; // TODO: pull from user profile
+const HOME_CITY = 'Lagos';
+const MAX_PINNED = 3;
+const REGIONS = ['All', 'Africa', 'Asia', 'Europe', 'Americas', 'Oceania'];
 
 function getLocalTime(timezone: string) {
-  return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: timezone });
+  try {
+    return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: timezone });
+  } catch {
+    return '--';
+  }
 }
 
-function SectionCard({ children }: { children: React.ReactNode }) {
+function Card({ children }: { children: React.ReactNode }) {
   return (
     <div className="rounded-2xl p-4" style={{ backgroundColor: 'var(--owf-surface)', border: '1px solid var(--owf-border)' }}>
       {children}
@@ -115,67 +101,71 @@ function SectionCard({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <p className="text-xs font-black tracking-widest mb-3" style={{ color: 'var(--owf-text-secondary)' }}>{children}</p>;
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-xs font-black tracking-widest mb-3" style={{ color: 'var(--owf-text-secondary)' }}>
+      {children}
+    </p>
+  );
 }
 
 export default function RightPanel() {
-  const [activeTheme, setActiveTheme] = useState('light');
+  const [theme, setTheme] = useState('light');
   const [times, setTimes] = useState<Record<string, string>>({});
   const [aiInput, setAiInput] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
-  const [spotlightIdx, setSpotlightIdx] = useState(0);
-  const [pinnedCities, setPinnedCities] = useState<string[]>(DEFAULT_PINNED);
-  const [showCityPicker, setShowCityPicker] = useState(false);
-  const [citySearch, setCitySearch] = useState('');
-  const [activeRegion, setActiveRegion] = useState('All');
+  const [spotIdx, setSpotIdx] = useState(0);
+  const [pinned, setPinned] = useState<string[]>(['Tokyo', 'London', 'New York']);
+  const [showPicker, setShowPicker] = useState(false);
+  const [search, setSearch] = useState('');
+  const [region, setRegion] = useState('All');
 
   useEffect(() => {
-    const saved = localStorage.getItem('owf-theme') || 'light';
-    const savedCities = localStorage.getItem('owf-cities');
-    if (savedCities) setPinnedCities(JSON.parse(savedCities));
-    setActiveTheme(saved);
-    applyTheme(saved);
-    updateTimes();
-    const interval = setInterval(updateTimes, 30000);
-    return () => clearInterval(interval);
+    const t = localStorage.getItem('owf-theme') || 'light';
+    const c = localStorage.getItem('owf-cities');
+    setTheme(t);
+    applyTheme(t);
+    if (c) setPinned(JSON.parse(c));
+    tick();
+    const id = setInterval(tick, 30000);
+    return () => clearInterval(id);
   }, []);
 
-  const updateTimes = () => {
+  function tick() {
     const t: Record<string, string> = {};
     ALL_CITIES.forEach(c => { t[c.name] = getLocalTime(c.timezone); });
     setTimes(t);
-  };
+  }
 
-  const applyTheme = (id: string) => {
-    const theme = THEMES.find(t => t.id === id);
-    if (!theme) return;
-    Object.entries(theme.vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
-  };
+  function applyTheme(id: string) {
+    const t = THEMES.find(x => x.id === id);
+    if (!t) return;
+    Object.entries(t.vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+  }
 
-  const handleTheme = (id: string) => {
-    setActiveTheme(id);
+  function handleTheme(id: string) {
+    setTheme(id);
     applyTheme(id);
     localStorage.setItem('owf-theme', id);
-  };
+  }
 
-  const MAX_CITIES = 3;
-  const toggleCity = (cityName: string) => {
-    if (cityName === USER_HOME_CITY) return;
-    if (pinnedCities.includes(cityName)) {
-      const next = pinnedCities.filter(c => c !== cityName);
-      setPinnedCities(next);
+  function toggleCity(name: string) {
+    if (name === HOME_CITY) return;
+    if (pinned.includes(name)) {
+      const next = pinned.filter(c => c !== name);
+      setPinned(next);
       localStorage.setItem('owf-cities', JSON.stringify(next));
     } else {
-      if (pinnedCities.filter(c => c !== USER_HOME_CITY).length >= MAX_CITIES) return;
-      const next = [...pinnedCities, cityName];
-      setPinnedCities(next);
+      const nonHome = pinned.filter(c => c !== HOME_CITY);
+      if (nonHome.length >= MAX_PINNED) return;
+      const next = [...pinned, name];
+      setPinned(next);
       localStorage.setItem('owf-cities', JSON.stringify(next));
     }
-  };
+  }
 
-  const handleAI = async () => {
+  async function handleAI() {
     if (!aiInput.trim()) return;
     setAiLoading(true);
     setAiResponse('');
@@ -186,7 +176,7 @@ export default function RightPanel() {
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 300,
-          system: 'You are OWF AI — a helpful, concise assistant embedded in OneWorldFeed, a global social platform. Answer questions briefly and warmly in 2-3 sentences max.',
+          system: 'You are OWF AI — a helpful, concise assistant on OneWorldFeed, a global social platform. Answer in 2-3 sentences max.',
           messages: [{ role: 'user', content: aiInput }],
         }),
       });
@@ -197,76 +187,92 @@ export default function RightPanel() {
     }
     setAiLoading(false);
     setAiInput('');
-  };
+  }
 
-  const regions = ['All', 'Africa', 'Asia', 'Europe', 'Americas', 'Oceania'];
-  const filteredCities = ALL_CITIES.filter(c => {
-    const matchRegion = activeRegion === 'All' || c.region === activeRegion;
-    const matchSearch = c.name.toLowerCase().includes(citySearch.toLowerCase());
-    return matchRegion && matchSearch;
-  });
-
-  // Home city always first, rest in pinned order
   const displayCities = [
-    ALL_CITIES.find(c => c.name === USER_HOME_CITY)!,
-    ...pinnedCities.filter(n => n !== USER_HOME_CITY).map(n => ALL_CITIES.find(c => c.name === n)!).filter(Boolean),
+    ALL_CITIES.find(c => c.name === HOME_CITY)!,
+    ...pinned.filter(n => n !== HOME_CITY).map(n => ALL_CITIES.find(c => c.name === n)!).filter(Boolean),
   ];
 
-  const spotlight = SPOTLIGHT[spotlightIdx];
+  const filteredCities = ALL_CITIES.filter(c => {
+    const byRegion = region === 'All' || c.region === region;
+    const bySearch = c.name.toLowerCase().includes(search.toLowerCase());
+    return byRegion && bySearch;
+  });
+
+  const nonHomePinned = pinned.filter(c => c !== HOME_CITY).length;
+  const spot = SPOTLIGHT[spotIdx];
 
   return (
     <aside className="hidden lg:flex flex-col gap-4 w-72 flex-shrink-0">
 
       {/* Spotlight */}
-      <SectionCard>
-        <SectionTitle>SPOTLIGHT</SectionTitle>
-        <div className="relative rounded-xl overflow-hidden cursor-pointer" style={{ height: '140px' }}
-          onClick={() => setSpotlightIdx((spotlightIdx + 1) % SPOTLIGHT.length)}>
-          <img src={spotlight.image} alt={spotlight.title} className="w-full h-full object-cover"
-            draggable={false} onContextMenu={e => e.preventDefault()} style={{ pointerEvents: 'none' }} />
+      <Card>
+        <Label>SPOTLIGHT</Label>
+        <div
+          className="relative rounded-xl overflow-hidden cursor-pointer"
+          style={{ height: '140px' }}
+          onClick={() => setSpotIdx((spotIdx + 1) % SPOTLIGHT.length)}
+        >
+          <img
+            src={spot.image} alt={spot.title}
+            className="w-full h-full object-cover"
+            draggable={false}
+            onContextMenu={e => e.preventDefault()}
+            style={{ pointerEvents: 'none' }}
+          />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }} />
           <div className="absolute bottom-3 left-3 right-3">
-            <p className="text-white text-sm font-bold">{spotlight.title}</p>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem' }}>{spotlight.subtitle}</p>
+            <p className="text-white text-sm font-bold">{spot.title}</p>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem' }}>{spot.subtitle}</p>
           </div>
           <div className="absolute top-2 right-2 flex gap-1">
             {SPOTLIGHT.map((_, i) => (
-              <div key={i} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: i === spotlightIdx ? '#fff' : 'rgba(255,255,255,0.4)' }} />
+              <div key={i} className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: i === spotIdx ? '#fff' : 'rgba(255,255,255,0.4)' }} />
             ))}
           </div>
         </div>
-      </SectionCard>
+      </Card>
 
-      {/* AI Assistant */}
-      <SectionCard>
-        <SectionTitle>OWF AI</SectionTitle>
+      {/* AI */}
+      <Card>
+        <Label>OWF AI</Label>
         <p className="text-xs mb-3" style={{ color: 'var(--owf-text-secondary)' }}>Ask anything about the world.</p>
         <div className="flex gap-2 mb-2">
-          <input type="text" value={aiInput} onChange={e => setAiInput(e.target.value)}
+          <input
+            type="text" value={aiInput}
+            onChange={e => setAiInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleAI()}
             placeholder="Ask a question..."
             className="flex-1 text-xs px-3 py-2 rounded-xl focus:outline-none"
-            style={{ backgroundColor: 'var(--owf-bg)', border: '1px solid var(--owf-border)', color: 'var(--owf-text-primary)' }} />
-          <button onClick={handleAI} disabled={aiLoading}
-            className="text-xs font-bold px-3 py-2 rounded-xl transition-all"
-            style={{ backgroundColor: 'var(--owf-gold)', color: '#fff', opacity: aiLoading ? 0.6 : 1 }}>
+            style={{ backgroundColor: 'var(--owf-bg)', border: '1px solid var(--owf-border)', color: 'var(--owf-text-primary)' }}
+          />
+          <button
+            onClick={handleAI} disabled={aiLoading}
+            className="text-xs font-bold px-3 py-2 rounded-xl"
+            style={{ backgroundColor: 'var(--owf-gold)', color: '#fff', opacity: aiLoading ? 0.6 : 1 }}
+          >
             {aiLoading ? '...' : '→'}
           </button>
         </div>
         {aiResponse && (
-          <div className="text-xs leading-relaxed p-3 rounded-xl" style={{ backgroundColor: 'var(--owf-bg)', color: 'var(--owf-text-primary)', border: '1px solid var(--owf-border)' }}>
+          <div className="text-xs leading-relaxed p-3 rounded-xl"
+            style={{ backgroundColor: 'var(--owf-bg)', color: 'var(--owf-text-primary)', border: '1px solid var(--owf-border)' }}>
             {aiResponse}
           </div>
         )}
-      </SectionCard>
+      </Card>
 
       {/* Trending */}
-      <SectionCard>
-        <SectionTitle>TRENDING</SectionTitle>
+      <Card>
+        <Label>TRENDING</Label>
         <div className="space-y-1.5">
-          {TRENDING_TAGS.map((item, i) => (
-            <button key={item.tag} className="w-full flex items-center justify-between py-1.5 px-2 rounded-xl transition-all hover:scale-[1.01]"
-              style={{ backgroundColor: item.color + '0A' }}>
+          {TRENDING.map((item, i) => (
+            <button key={item.tag}
+              className="w-full flex items-center justify-between py-1.5 px-2 rounded-xl"
+              style={{ backgroundColor: item.color + '0A' }}
+            >
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold w-4 text-right" style={{ color: 'var(--owf-text-secondary)' }}>{i + 1}</span>
                 <span className="text-sm font-bold" style={{ color: item.color }}>{item.tag}</span>
@@ -275,36 +281,41 @@ export default function RightPanel() {
             </button>
           ))}
         </div>
-      </SectionCard>
+      </Card>
 
       {/* World Clocks */}
-      <SectionCard>
+      <Card>
         <div className="flex items-center justify-between mb-3">
-          <SectionTitle>WORLD CLOCKS</SectionTitle>
-          <button onClick={() => setShowCityPicker(!showCityPicker)}
-            className="text-xs font-bold px-2 py-1 rounded-lg transition-all"
-            style={{ color: 'var(--owf-gold)', backgroundColor: 'var(--owf-gold)' + '18', border: '1px solid var(--owf-gold)33' }}>
-            {showCityPicker ? 'Done' : '+ Cities'}
+          <p className="text-xs font-black tracking-widest" style={{ color: 'var(--owf-text-secondary)' }}>WORLD CLOCKS</p>
+          <button
+            onClick={() => setShowPicker(!showPicker)}
+            className="text-xs font-bold px-2 py-1 rounded-lg"
+            style={{ color: 'var(--owf-gold)', backgroundColor: '#D9770618', border: '1px solid #D9770633' }}
+          >
+            {showPicker ? 'Done' : '+ Cities'}
           </button>
         </div>
 
-        {/* Pinned cities list */}
-        {!showCityPicker && (
+        {!showPicker && (
           <div className="space-y-2">
             {displayCities.map((city, i) => (
-              <div key={city.name} className="flex items-center justify-between py-1.5 px-2 rounded-xl"
-                style={{ backgroundColor: i === 0 ? 'var(--owf-gold)' + '10' : 'transparent', border: i === 0 ? '1px solid var(--owf-gold)22' : 'none' }}>
+              <div key={city.name}
+                className="flex items-center justify-between py-1.5 px-2 rounded-xl"
+                style={{ backgroundColor: i === 0 ? '#D9770610' : 'transparent', border: i === 0 ? '1px solid #D9770622' : 'none' }}
+              >
                 <div>
                   <div className="flex items-center gap-1.5">
                     <p className="text-sm font-bold" style={{ color: 'var(--owf-text-primary)' }}>{city.name}</p>
-                    {i === 0 && <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--owf-gold)', color: '#fff' }}>HOME</span>}
+                    {i === 0 && (
+                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--owf-gold)', color: '#fff' }}>HOME</span>
+                    )}
                   </div>
                   <p className="text-xs" style={{ color: 'var(--owf-text-secondary)' }}>{times[city.name] || '--'}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-bold" style={{ color: 'var(--owf-text-secondary)' }}>{city.temp}°F</span>
                   {i > 0 && (
-                    <button onClick={() => toggleCity(city.name)} className="text-xs opacity-40 hover:opacity-100 transition-all" style={{ color: 'var(--owf-text-secondary)' }}>✕</button>
+                    <button onClick={() => toggleCity(city.name)} className="text-xs opacity-40 hover:opacity-100" style={{ color: 'var(--owf-text-secondary)' }}>✕</button>
                   )}
                 </div>
               </div>
@@ -312,45 +323,53 @@ export default function RightPanel() {
           </div>
         )}
 
-        {/* City picker */}
-        {showCityPicker && (
+        {showPicker && (
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs" style={{ color: 'var(--owf-text-secondary)' }}>Select up to 3 cities</span>
-              <span className="text-xs font-black" style={{ color: pinnedCities.filter((c: string) => c !== USER_HOME_CITY).length >= 3 ? '#EF4444' : 'var(--owf-gold)' }}>
-                {pinnedCities.filter((c: string) => c !== USER_HOME_CITY).length}/3
+              <span className="text-xs font-black" style={{ color: nonHomePinned >= MAX_PINNED ? '#EF4444' : 'var(--owf-gold)' }}>
+                {nonHomePinned}/{MAX_PINNED}
               </span>
             </div>
-            <input type="text" value={citySearch} onChange={e => setCitySearch(e.target.value)}
+            <input
+              type="text" value={search}
+              onChange={e => setSearch(e.target.value)}
               placeholder="Search cities..."
-              className="w-full text-xs px-3 py-2 rounded-xl mb-3 focus:outline-none"
-              style={{ backgroundColor: 'var(--owf-bg)', border: '1px solid var(--owf-border)', color: 'var(--owf-text-primary)' }} />
-            {/* Region tabs */}
-            <div className="flex gap-1 flex-wrap mb-3">
-              {regions.map(r => (
-                <button key={r} onClick={() => setActiveRegion(r)}
-                  className="text-[10px] font-bold px-2 py-1 rounded-lg transition-all"
-                  style={{ backgroundColor: activeRegion === r ? 'var(--owf-gold)' : 'var(--owf-bg)', color: activeRegion === r ? '#fff' : 'var(--owf-text-secondary)', border: '1px solid var(--owf-border)' }}>
+              className="w-full text-xs px-3 py-2 rounded-xl mb-2 focus:outline-none"
+              style={{ backgroundColor: 'var(--owf-bg)', border: '1px solid var(--owf-border)', color: 'var(--owf-text-primary)' }}
+            />
+            <div className="flex gap-1 flex-wrap mb-2">
+              {REGIONS.map(r => (
+                <button key={r} onClick={() => setRegion(r)}
+                  className="text-[10px] font-bold px-2 py-1 rounded-lg"
+                  style={{ backgroundColor: region === r ? 'var(--owf-gold)' : 'var(--owf-bg)', color: region === r ? '#fff' : 'var(--owf-text-secondary)', border: '1px solid var(--owf-border)' }}
+                >
                   {r}
                 </button>
               ))}
             </div>
-            {/* City list */}
-            <div className="space-y-1 max-h-64 overflow-y-auto">
+            <div className="space-y-1 max-h-56 overflow-y-auto">
               {filteredCities.map(city => {
-                const pinned = pinnedCities.includes(city.name);
-                const isHome = city.name === USER_HOME_CITY;
+                const isPinned = pinned.includes(city.name);
+                const isHome = city.name === HOME_CITY;
+                const atMax = !isPinned && !isHome && nonHomePinned >= MAX_PINNED;
                 return (
-                  <button key={city.name} onClick={() => toggleCity(city.name)}
-                    className="w-full flex items-center justify-between py-1.5 px-2 rounded-xl transition-all"
-undefined
+                  <button
+                    key={city.name}
+                    onClick={() => toggleCity(city.name)}
+                    disabled={isHome || atMax}
+                    className="w-full flex items-center justify-between py-1.5 px-2 rounded-xl"
+                    style={{ backgroundColor: isPinned ? '#D9770612' : 'transparent', opacity: atMax ? 0.3 : 1 }}
+                  >
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded flex items-center justify-center text-xs"
-                        style={{ backgroundColor: pinned ? 'var(--owf-gold)' : 'var(--owf-border)', color: pinned ? '#fff' : 'transparent' }}>
+                        style={{ backgroundColor: isPinned ? 'var(--owf-gold)' : 'var(--owf-border)', color: isPinned ? '#fff' : 'transparent' }}>
                         ✓
                       </div>
                       <span className="text-xs font-semibold" style={{ color: 'var(--owf-text-primary)' }}>{city.name}</span>
-                      {isHome && <span className="text-[9px] font-black px-1 py-0.5 rounded" style={{ backgroundColor: 'var(--owf-gold)', color: '#fff' }}>HOME</span>}
+                      {isHome && (
+                        <span className="text-[9px] font-black px-1 py-0.5 rounded" style={{ backgroundColor: 'var(--owf-gold)', color: '#fff' }}>HOME</span>
+                      )}
                     </div>
                     <span className="text-[10px]" style={{ color: 'var(--owf-text-secondary)' }}>{city.region}</span>
                   </button>
@@ -359,11 +378,11 @@ undefined
             </div>
           </div>
         )}
-      </SectionCard>
+      </Card>
 
-      {/* Who to follow */}
-      <SectionCard>
-        <SectionTitle>WHO TO FOLLOW</SectionTitle>
+      {/* Who to Follow */}
+      <Card>
+        <Label>WHO TO FOLLOW</Label>
         <div className="space-y-3">
           {WHO_TO_FOLLOW.map(person => (
             <div key={person.handle} className="flex items-center justify-between">
@@ -377,32 +396,32 @@ undefined
                   <p className="text-xs" style={{ color: 'var(--owf-text-secondary)' }}>{person.handle}</p>
                 </div>
               </div>
-              <button className="text-xs font-bold px-3 py-1 rounded-full transition-all hover:scale-105"
+              <button className="text-xs font-bold px-3 py-1 rounded-full"
                 style={{ backgroundColor: person.color + '18', color: person.color, border: '1px solid ' + person.color + '33' }}>
                 Follow
               </button>
             </div>
           ))}
         </div>
-      </SectionCard>
+      </Card>
 
       {/* Theme */}
-      <SectionCard>
-        <SectionTitle>THEME</SectionTitle>
+      <Card>
+        <Label>THEME</Label>
         <div className="flex items-center gap-2 flex-wrap">
-          {THEMES.map(theme => {
-            const active = activeTheme === theme.id;
-            return (
-              <button key={theme.id} onClick={() => handleTheme(theme.id)}
-                className="flex flex-col items-center gap-1 transition-all hover:scale-105" title={theme.label}>
-                <div className="w-10 h-10 rounded-xl border-2 transition-all"
-                  style={{ background: THEME_GRADIENTS[theme.id], borderColor: active ? 'var(--owf-gold)' : 'var(--owf-border)', boxShadow: active ? '0 0 0 3px #D9770633' : 'none' }} />
-                <span className="text-[10px] font-semibold" style={{ color: active ? 'var(--owf-gold)' : 'var(--owf-text-secondary)' }}>{theme.label}</span>
-              </button>
-            );
-          })}
+          {THEMES.map(t => (
+            <button key={t.id} onClick={() => handleTheme(t.id)}
+              className="flex flex-col items-center gap-1" title={t.label}>
+              <div className="w-10 h-10 rounded-xl border-2"
+                style={{ background: t.gradient, borderColor: theme === t.id ? 'var(--owf-gold)' : 'var(--owf-border)', boxShadow: theme === t.id ? '0 0 0 3px #D9770633' : 'none' }} />
+              <span className="text-[10px] font-semibold"
+                style={{ color: theme === t.id ? 'var(--owf-gold)' : 'var(--owf-text-secondary)' }}>
+                {t.label}
+              </span>
+            </button>
+          ))}
         </div>
-      </SectionCard>
+      </Card>
 
     </aside>
   );
