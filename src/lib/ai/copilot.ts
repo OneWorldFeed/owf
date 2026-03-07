@@ -65,7 +65,7 @@ export const LENS_VERSIONS: Record<Lens, string> = {
 export const SAFETY_POLICY_VERSION = 'v1';
 
 const SAFETY_BLOCKED_PATTERNS = [
-  /\b(medical advice|legal advice|diagnos|prescri)\b/i,
+  /\b(medical advice|legal advice|diagnosis|prescription)\b/i,
   /\b(suicide|self.harm|self harm|kill myself|end my life)\b/i,
   /how to (make|build|create|synthesize) (a )?(bomb|weapon|gun|explosive|drug|poison)/i,
   /\b(child abuse|csam|grooming)\b/i,
