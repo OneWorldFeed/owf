@@ -249,7 +249,7 @@ Seoul: "Seoul at night from the rooftop. The city never sleeps and neither do we
   const spot = SPOTLIGHT[spotIdx];
 
   return (
-    <aside className="hidden lg:flex flex-col gap-4 w-72 flex-shrink-0">
+    <aside className="hidden lg:flex flex-col gap-4 w-72 flex-shrink-0 sticky top-16 self-start max-h-[calc(100vh-5rem)] overflow-y-auto">
 
       {/* Spotlight */}
       <Card>
