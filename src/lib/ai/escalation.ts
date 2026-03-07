@@ -1,18 +1,7 @@
-/* ============================================================
-   OWF COPILOT — ESCALATION ENGINE v1
-   Silent auto-escalation from local lens to Full Copilot Mode.
-   The user never sees this happening — it just works.
-
-   Flow:
-   1. detectIntent(userMessage)
-   2. If local → route to copilotCall() with lens
-   3. If escalated → fetch from connector → synthesize with AI
-============================================================ */
-
 import { detectIntent } from './router';
 import { rulesEngineCall } from './rules-engine';
-import { getWeather, getTime, getNews, getSearch } from './connectors';
 import { copilotCall, type Lens, type CopilotMessage, type CopilotResponse } from './copilot';
+import { getWeather, getTime, getNews, getSearch } from './connectors';
 
 export interface EscalatedResponse extends CopilotResponse {
   escalated: boolean;
@@ -26,13 +15,9 @@ export async function escalatingCall(
   history: CopilotMessage[] = [],
 ): Promise<EscalatedResponse> {
 
-  // Check if API key is available — if not, use rules engine
-  const hasApiKey = typeof process !== 'undefined'
-    ? !!process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY
-    : false;
+  const hasApiKey = !!process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY;
 
-  const intent = detectIntent(userMessage);
-
+  if (!hasApiKey) {
     const rules = rulesEngineCall(userMessage);
     return {
       text: rules.text,
@@ -43,8 +28,11 @@ export async function escalatingCall(
       escalated: false,
       telemetry: {
         timestamp: new Date().toISOString(),
-        lens, lensVersion: 'rules-v1', safetyVersion: 'v1',
-        ring: 'civic', blocked: false,
+        lens,
+        lensVersion: 'rules-v1',
+        safetyVersion: 'v1',
+        ring: 'civic',
+        blocked: false,
         inputLength: userMessage.length,
         outputLength: rules.text.length,
         durationMs: 0,
@@ -52,15 +40,14 @@ export async function escalatingCall(
     };
   }
 
-  // LOCAL — no escalation needed
+  const intent = detectIntent(userMessage);
+
   if (intent.intent === 'local') {
     const response = await copilotCall(lens, userMessage, history);
     return { ...response, escalated: false };
   }
 
-  // ESCALATED — fetch real data then synthesize
   let rawData = '';
-
   try {
     if (intent.intent === 'weather') {
       rawData = await getWeather(intent.extractedQuery || userMessage);
@@ -75,25 +62,12 @@ export async function escalatingCall(
     rawData = '';
   }
 
-  // If connector returned data, synthesize it through the AI lens
   if (rawData) {
-    const synthesisPrompt = `The user asked: "${userMessage}"
-
-Real-time data retrieved:
-${rawData}
-
-Respond naturally and warmly, incorporating this real data. Be concise — 2-4 sentences. Do not mention that you fetched external data or that you escalated. Just answer as OWF AI.`;
-
+    const synthesisPrompt = `The user asked: "${userMessage}"\n\nReal-time data retrieved:\n${rawData}\n\nRespond naturally and warmly, incorporating this real data. Be concise — 2-4 sentences. Do not mention that you fetched external data. Just answer as OWF AI.`;
     const response = await copilotCall(lens, synthesisPrompt, history, undefined, true);
-    return {
-      ...response,
-      escalated: true,
-      escalationType: intent.intent,
-      rawData,
-    };
+    return { ...response, escalated: true, escalationType: intent.intent, rawData };
   }
 
-  // Connector failed — fall back to local AI
   const response = await copilotCall(lens, userMessage, history);
   return { ...response, escalated: false };
 }
